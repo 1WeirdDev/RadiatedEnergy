@@ -5,6 +5,9 @@
 GLFWwindow* Window::s_Window = nullptr;
 bool Window::s_ShouldBeOpen = false;
 
+int Window::s_Width = 1280;
+int Window::s_Height = 720;
+
 void Window::Create(){
     if(!glfwInit()){
         CORE_ERROR("Failed to initialize GLFW");
@@ -15,7 +18,7 @@ void Window::Create(){
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    s_Window = glfwCreateWindow(1280, 720, GAME_NAME, nullptr, nullptr);
+    s_Window = glfwCreateWindow(s_Width, s_Height, GAME_NAME, nullptr, nullptr);
 
     if(!s_Window){
         CORE_ERROR("Failed to create window");
@@ -34,6 +37,7 @@ void Window::Create(){
         s_ShouldBeOpen = false;
     });
     s_ShouldBeOpen = true;
+    Center();
     CORE_INFO("Created Window");
 }
 void Window::Shutdown(){
@@ -44,4 +48,9 @@ void Window::Shutdown(){
 void Window::Update(){
     glfwSwapBuffers(s_Window);
     glfwPollEvents();
+}
+
+void Window::Center(){
+    GLFWvidmode* videoMode = (GLFWvidmode*)glfwGetVideoMode(glfwGetPrimaryMonitor());
+    glfwSetWindowPos(s_Window, (videoMode->width - s_Width) / 2, (videoMode->height - s_Height) / 2);
 }
