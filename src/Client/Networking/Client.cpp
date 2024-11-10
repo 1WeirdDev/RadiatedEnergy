@@ -31,17 +31,17 @@ void Client::Connect(std::string hostName, uint16_t port){
     m_IsConnected = false;
     m_IsAttemptingConnect = true;
 
-    m_TCPResolver.async_resolve(hostName, std::to_string(port), [self, hostName](
+    m_TCPResolver.async_resolve(hostName, std::to_string(port), [self, hostName, port](
     const asio::error_code& ec,
     tcp::resolver::results_type results){
         if(ec){
-            CORE_ERROR("Failed resolving {0} : {1}", hostName, ec.message());
+            CORE_ERROR("Failed resolving {0}:{1}, {3}", hostName, port, ec.message());
             self->Disconnect();
             return;
         }
-        self->m_TCPSocket.async_connect(*results.begin(), [self, hostName](const std::error_code& ec){
+        self->m_TCPSocket.async_connect(*results.begin(), [self, hostName, port](const std::error_code& ec){
             if(ec){
-                CORE_ERROR("Failed connecting to {0} : {1}", hostName, ec.message());
+                CORE_ERROR("Failed connecting to {0}:{1}, {2}", hostName, port, ec.message());
                 self->Disconnect();
                 return;
             }

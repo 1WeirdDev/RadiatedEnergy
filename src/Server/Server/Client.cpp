@@ -30,7 +30,7 @@ void Client::Disconnect(){
 }
 void Client::StartTCPAsyncRead(){
     auto self = shared_from_this();
-    m_TCPSocket.async_read_some(m_TCPReadBuffer, [self](const std::error_code& ec, size_t bytesTransferred){
+    m_TCPSocket.async_read_some(asio::buffer(m_TCPReadBuffer, CLIENT_MAX_READ_BUFFER_SIZE), [self](const std::error_code& ec, size_t bytesTransferred){
         self->OnTCPAsyncRead(ec, bytesTransferred);
     });
 }
