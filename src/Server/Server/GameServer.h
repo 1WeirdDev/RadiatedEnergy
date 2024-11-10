@@ -4,6 +4,7 @@
 
 class GameServer{
 public:
+    friend class Client;
     GameServer();
     /// @brief Attempts to start a game server on a specified port
     /// @return returns 0 if successful
@@ -12,7 +13,9 @@ public:
 private:
     void StartAccept();
 
+    void RemoveClient(Client& client);
 public:
+    asio::io_context& GetIOContext() const noexcept{return (asio::io_context&)m_IOContext;}
     bool ShouldRun() const noexcept{return m_ShouldRun;}
 private:
     asio::io_context m_IOContext;

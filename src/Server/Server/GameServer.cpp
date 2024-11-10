@@ -34,7 +34,7 @@ int GameServer::Start(uint16_t port){
 
     m_ShouldRun = true;
     StartAccept();
-    
+
     m_RunThread = std::thread([this](){
         while(m_ShouldRun){
             m_IOContext.poll_one();
@@ -63,9 +63,18 @@ void GameServer::StartAccept(){
             return;
         }
 
-        std::shared_ptr<Client> client = std::make_shared<Client>(std::move(tcpSocket));
+        std::shared_ptr<Client> client = std::make_shared<Client>(*this, std::move(tcpSocket));
         m_Clients.push_back(client);
         client->Start();
         StartAccept();
     });
+}
+
+void GameServer::RemoveClient(Client& client){
+    for(size_t i = 0; i < m_Clients.size(); i++){
+        if(m_Clients[i].get() == &client){
+            m_Clients.erase(m_Clients.begin() + i);
+            return;
+        }
+    }
 }
