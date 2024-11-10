@@ -11,9 +11,9 @@ enum class KeyModifierBit{
 };
 
 enum class KeyPressState{
-    Pressed=0,
-    Released=1,
-    Repeated=2
+    Released=0,
+    Repeated,
+    Pressed
 };
 
 class Keyboard{
@@ -21,6 +21,8 @@ public:
     static void Init();
     static void Shutdown();
 
+    static void Update();
 private:
     static std::array<char, 500> s_Keys;
+    static std::vector<uint16_t> s_KeysToSet;
 };
