@@ -6,7 +6,7 @@ CFlags = /c /Fo$(INT_DIR) /std:c++17 /MD
 Defines = /DPLATFORM=Windows /DGLEW_STATIC /DWINDOWS_IGNORE_PACKING_MISMATCH
 VCPKG_PATH = "${VCPKG_ROOT}/installed/x64-windows/"
 ($ $(VCPKG_PATH))
-IncludeDirs = /I$(SRC_DIR) /Ilibs/spdlog-1.14.1/include/ /I$(VCPKG_PATH)/include /Ilibs/Asio-1.30.2/include/
+IncludeDirs = /I$(SRC_DIR) /Ilibs/spdlog-1.14.1/include/ /I$(VCPKG_PATH)/include /Ilibs/Asio-1.30.2/include/ /Isrc/Shared/
 LibDirs = /LibPath:$(VCPKG_PATH)/lib
 Libs = GDI32.lib Shell32.lib kernel32.lib User32.lib
 LFlags = $(INT_DIR)*.obj /out:$(OUTPUT_DIR)$(TargetName).exe
@@ -38,6 +38,7 @@ Defines += /DGLEW_STATIC
 
 Files += $(SRC_DIR)Core/Logger.cpp
 Files += $(SRC_DIR)Display/Window.cpp
+Files += $(SRC_DIR)Networking/Client.cpp
 else
 Files += $(SRC_DIR)Core/Logger.cpp
 Files += $(SRC_DIR)Server/GameServer.cpp
