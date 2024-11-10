@@ -94,6 +94,7 @@
         "stdfloat": "cpp",
         "strstream": "cpp",
         "typeindex": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "unordered_set": "cpp"
     }
 }

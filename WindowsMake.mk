@@ -31,6 +31,7 @@ endif
 Files+= $(SRC_DIR)Main.cpp
 
 ifeq ($(Type), Client)
+#Client
 IncludeDirs +=  /Ilibs/Freetype/include/ /Ilibs/glew-2.2.0/include/ /Ilibs/GLFW3.4/x64/include/ 
 LibDirs += /LIBPATH:"libs/Freetype/libs/x64" /LibPath:"libs/glew-2.2.0/libs/$(Arch)/" /LibPath:"libs/GLFW3.4/x64/lib-vc2022/"
 Libs += freetype.lib glfw3.lib glew32s.lib opengl32.lib
@@ -41,7 +42,17 @@ Files += $(SRC_DIR)Game.cpp
 Files += $(SRC_DIR)Core/Logger.cpp
 Files += $(SRC_DIR)Display/Window.cpp
 Files += $(SRC_DIR)Networking/Client.cpp
+
+#Input
+Files += $(SRC_DIR)Input/Keyboard.cpp
+Files += $(SRC_DIR)Input/Mouse.cpp
+#Scenes
+ScenesDir = $(SRC_DIR)Scene/Scenes/
+Files += $(SRC_DIR)Scene/Scene.cpp
+Files += $(SRC_DIR)Scene/SceneManager.cpp
+Files += $(ScenesDir)MainMenuScene.cpp
 else
+#Server
 Files += $(SRC_DIR)Core/Logger.cpp
 Files += $(SRC_DIR)Server/GameServer.cpp
 Files += $(SRC_DIR)Server/Client.cpp
