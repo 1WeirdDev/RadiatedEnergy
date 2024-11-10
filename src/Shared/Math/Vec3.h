@@ -30,7 +30,21 @@ public:
         m_Z(z){
         static_assert(std::is_arithmetic<TYPE>::value, "TYPE must be a numeric type");
     }
+public:
+    //TODO: make only available for type float/double
+    void Normalize() noexcept{
+        TYPE mag = GetMagnitude();
+        if(mag <= 1)return;
+        m_X /= mag;
+        m_Y /= mag;
+        m_Z /= mag;
+    }
 
+    Vec3<TYPE> GetNormalized() const noexcept{
+        TYPE mag = GetMagnitude();
+        if(mag <= 1)return;
+        return Vec3<TYPE>(m_X / mag, m_Y / mag, m_Z / mag);
+    }
     template<typename T>
     T GetMagnitude() const noexcept{return static_cast<T>(sqrt(m_X * m_X + m_Y * m_Y + m_Z * m_Z));}
     TYPE GetMagnitude() const noexcept{return static_cast<TYPE>(sqrt(m_X * m_X + m_Y * m_Y + m_Z * m_Z));}
@@ -38,7 +52,9 @@ public:
     template<typename T>
     T GetDotProduct(const Vec3<TYPE> rhs) const noexcept{return static_cast<T>(m_X * rhs.m_X + m_Y * rhs.m_Y + m_Z * rhs.m_Z);}
     TYPE GetDotProduct(const Vec3<TYPE> rhs) const noexcept{return static_cast<TYPE>(m_X * rhs.m_X + m_Y * rhs.m_Y + m_Z * rhs.m_Z);}
-    
+public:
+    //Operators
+
     Vec3<TYPE> operator+=(const Vec3<TYPE> rhs) noexcept{
         m_X += rhs.m_X;
         m_Y += rhs.m_Y;
