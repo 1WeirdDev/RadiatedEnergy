@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Input/Keyboard.h"
+
 enum class LoadSceneMode{
     Single=0,
     Additive=1
@@ -28,7 +30,7 @@ public:
             Shutdown();
         }
         SCENE* scene = new SCENE(args...);
-        m_Scenes.push_back(scene);
+        s_Scenes.push_back(scene);
         scene->Init();
         return scene;
     }
@@ -37,8 +39,11 @@ public:
     /// @param scene the Scene* to search for
     /// @return returns true if success
     static bool RemoveScene(Scene* scene);
+    
+
+    static void HandleKeyEvent(KeyState state, uint8_t modifiers, uint16_t key);
 public:
-    static std::vector<Scene*>& GetScenes() noexcept{return (std::vector<Scene*>&)m_Scenes;}
+    static std::vector<Scene*>& GetScenes() noexcept{return (std::vector<Scene*>&)s_Scenes;}
 private:
-    static std::vector<Scene*> m_Scenes;
+    static std::vector<Scene*> s_Scenes;
 };

@@ -32,7 +32,7 @@ Files+= $(SRC_DIR)Main.cpp
 
 ifeq ($(Type), Client)
 #Client
-IncludeDirs +=  /Ilibs/Freetype/include/ /Ilibs/glew-2.2.0/include/ /Ilibs/GLFW3.4/x64/include/ 
+IncludeDirs += /Ilibs/stb/include/ /Ilibs/Freetype/include/ /Ilibs/glew-2.2.0/include/ /Ilibs/GLFW3.4/x64/include/ 
 LibDirs += /LIBPATH:"libs/Freetype/libs/x64" /LibPath:"libs/glew-2.2.0/libs/$(Arch)/" /LibPath:"libs/GLFW3.4/x64/lib-vc2022/"
 Libs += freetype.lib glfw3.lib glew32s.lib opengl32.lib
 Defines += /DGLEW_STATIC
@@ -46,6 +46,27 @@ Files += $(SRC_DIR)Core/Time.cpp
 
 #Rendering
 Files += $(SRC_DIR)Rendering/Window.cpp
+Files += $(SRC_DIR)Rendering/Shader.cpp
+Files += $(SRC_DIR)Rendering/Textures/Texture.cpp
+
+#Meshes
+MeshSrc = $(SRC_DIR)Rendering/Mesh/
+Files += $(MeshSrc)BasicMesh.cpp
+Files += $(MeshSrc)ChunkMesh.cpp
+Files += $(MeshSrc)PointMesh.cpp
+Files += $(MeshSrc)TexturedMesh.cpp
+#Shaders
+ShadersSrc = $(SRC_DIR)Rendering/Shaders/
+
+#GUI Shader
+Files += $(ShadersSrc)UITextShader.cpp
+Files += $(ShadersSrc)UIImageShader.cpp
+Files += $(ShadersSrc)UIFrameShader.cpp
+
+#Game Shaders
+Files += $(ShadersSrc)ChunkDebugShader.cpp
+Files += $(ShadersSrc)ChunkShader.cpp
+Files += $(ShadersSrc)PointShader.cpp
 
 #Input
 Files += $(SRC_DIR)Input/Keyboard.cpp

@@ -125,7 +125,7 @@ void Shader::LoadVector3(GLint location, float x, float y, float z) noexcept{
 }
 
 void Shader::LoadVector3(GLint location, const Vec3<float>& vector) noexcept{
-    glUniform3f(location, vector.x, vector.y, vector.z);
+    glUniform3f(location, vector.m_X, vector.m_Y, vector.m_Z);
 }
 
 void Shader::LoadIVector2(GLint location, GLint x, GLint y) noexcept{

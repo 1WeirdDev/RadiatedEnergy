@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pch.h"
+#include "Input/Keyboard.h"
 
 class Scene{
 public:
@@ -11,6 +11,8 @@ public:
     virtual void CleanUp();
     virtual void Update();
     virtual void Draw();
+
+    virtual void HandleKeyEvent(bool& handled, KeyState state, uint8_t modifiers, uint16_t key);
 public:
 
 private:

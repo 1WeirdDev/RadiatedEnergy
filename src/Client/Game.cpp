@@ -38,11 +38,11 @@ void Game::Draw(){
 }
 
 void Game::OnKeyEvent(KeyState state, uint8_t modifiers, uint16_t key){
+    SceneManager::HandleKeyEvent(state, modifiers, key);
     //CORE_DEBUG("Key {0} pressed. State {1} modifiers {2}", key, (uint8_t)state, modifiers);
 }
 
 void Game::OnMouseButtonEvent(bool isDown, uint8_t key){
-    CORE_DEBUG("MOUSE {1} BUTTON IS {0} down", isDown ? "Down" : "Up", key);
 }
 void Game::OnWindowFocusCallback(bool focused){
     if(!focused)return;

@@ -10,3 +10,4 @@ void Scene::Init(){}
 void Scene::CleanUp(){}
 void Scene::Update(){}
 void Scene::Draw(){}
+void Scene::HandleKeyEvent(bool& handled, KeyState state, uint8_t modifiers, uint16_t key){}
