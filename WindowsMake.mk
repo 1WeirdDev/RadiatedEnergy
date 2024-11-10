@@ -36,6 +36,8 @@ LibDirs += /LIBPATH:"libs/Freetype/libs/x64" /LibPath:"libs/glew-2.2.0/libs/$(Ar
 Libs += freetype.lib glfw3.lib glew32s.lib opengl32.lib
 Defines += /DGLEW_STATIC
 
+Files += $(SRC_DIR)Game.cpp
+
 Files += $(SRC_DIR)Core/Logger.cpp
 Files += $(SRC_DIR)Display/Window.cpp
 Files += $(SRC_DIR)Networking/Client.cpp
