@@ -15,8 +15,8 @@ struct WindowData{
 
 class Window{
 public:
-    static void Init();
-    static void Shutdown();
+    static void Create();
+    static void Destroy();
 
     static void Update();
 
@@ -34,9 +34,11 @@ public:
 
     static float GetPixelSizeX() noexcept{return s_PixelSizeX;}
     static float GetPixelSizeY() noexcept{return s_PixelSizeY;}
+
+    static GLFWwindow* GetWindow() noexcept{return s_Window;}
 private:
     static WindowData s_Data;
-    static bool s_IsOpen;
+    static bool s_ShouldUpdate;
     //These get calculated off the data
     static float s_AspectRatio;
     static float s_InverseAspectRatio;

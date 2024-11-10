@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Mouse.h"
-#include "Display/Window.h"
+#include "Rendering/Window.h"
 #include "Game.h"
 
 std::array<char, 12> Mouse::s_Buttons;
@@ -25,5 +25,9 @@ void Mouse::Update(){
         uint8_t button = s_ButtonsToSet[i];
         if(s_Buttons[button])s_Buttons[button] = 1;
     }
+    s_ButtonsToSet.resize(0);
+}
+void Mouse::OnLostFocus(){
+    s_Buttons.fill(0);
     s_ButtonsToSet.resize(0);
 }

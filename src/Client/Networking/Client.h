@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/Core.h"
+#include "Core.h"
 #include "Shared.h"
 
 class Client : public std::enable_shared_from_this<Client>{

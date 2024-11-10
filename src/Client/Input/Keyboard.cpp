@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Game.h"
-#include "Display/Window.h"
+#include "Rendering/Window.h"
 #include "Core/Logger.h"
 
 std::array<uint8_t, 500> Keyboard::s_Keys;
@@ -59,4 +59,8 @@ bool Keyboard::IsKeyPressed(uint16_t key) noexcept{
 bool Keyboard::IsKeyDown(uint16_t key) noexcept{
     if(key < 0 || key >= s_Keys.size())return false;
     return s_Keys[key] != (uint8_t)KeyState::Released;
+}
+void Keyboard::OnLostFocus(){
+    s_Keys.fill(0);
+    s_KeysToSet.resize(0);
 }

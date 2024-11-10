@@ -2,13 +2,12 @@
 
 #include "Core.h"
 #include "Window.h"
-#include "Input/Input.h"
 #include "Core/Logger.h"
 #include "Core/Time.h"
 #include "Game.h"
 
 WindowData Window::s_Data;
-bool Window::s_IsOpen;
+bool Window::s_ShouldUpdate;
 float Window::s_AspectRatio = 1.0f;
 float Window::s_InverseAspectRatio = 1.0f;
 float Window::s_PixelSizeX = 0;
@@ -21,7 +20,7 @@ void APIENTRY ErrorCallback(GLenum source, GLenum type, GLuint id, GLenum severi
     if(severity != GL_DEBUG_SEVERITY_HIGH)return;
     CORE_DEBUG("GL ERROR {0}, {1}, {2}, {3}, ({4})", source, type, id, severity, message);
 }
-void Window::Init(){
+void Window::Create(){
     if(!glfwInit()){
         CORE_ERROR("Failed to initialize glfw");
         MESSAGE_BOX("GLFW API ERROR", "Failed to initialize glfw");
@@ -68,7 +67,7 @@ void Window::Init(){
 
     CORE_DEBUG("{0}", (const char*)glGetString(GL_VERSION));
     glfwSetWindowCloseCallback(s_Window, [](GLFWwindow* window){
-        s_IsOpen = false;
+        s_ShouldUpdate = false;
     });
 
     glfwSetWindowSizeCallback(s_Window, [](GLFWwindow* window, int width, int height){
@@ -88,34 +87,7 @@ void Window::Init(){
         Game::OnWindowPosCallback(xPos, yPos);
     });
 
-    glfwSetKeyCallback(s_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
-        KeyAction keyAction;
-        switch(action){
-            case GLFW_REPEAT:
-                keyAction = KeyAction::Repeat;
-                break;
-            case GLFW_RELEASE:
-                keyAction = KeyAction::Release;
-                break;
-            case GLFW_PRESS:
-                keyAction = KeyAction::Press;
-                break;
-        }
-
-        unsigned char modifiers;
-        if(mods & GLFW_MOD_SHIFT > 0)
-            modifiers |= KeyModifierBit::LeftShift;
-        Input::OnKeyEvent(key, keyAction, modifiers);
-    });
-
-    glfwSetCursorPosCallback(s_Window, [](GLFWwindow* window, double xPos, double yPos){
-        Input::OnMouseMoveEvent(xPos, Window::s_Data.m_Height - yPos - 1);
-    });
-
     glfwSetWindowFocusCallback(s_Window, [](GLFWwindow* window, int focused){
-        if(focused == GL_FALSE){
-            Input::OnWindowLostFocus();
-        }
         Game::OnWindowFocusCallback(focused);
     });
 
@@ -149,15 +121,16 @@ void Window::Init(){
 #else
     glfwSwapInterval(0);
 #endif
-    s_IsOpen = true;
+
+    s_ShouldUpdate = true;
 }
-void Window::Shutdown(){
+void Window::Destroy(){
     glfwDestroyWindow(s_Window);
     glfwTerminate();
 }
-bool Window::ShouldUpdate() noexcept{return s_IsOpen;}
+bool Window::ShouldUpdate() noexcept{return s_ShouldUpdate;}
 void Window::Close(){
-    s_IsOpen = false;
+    s_ShouldUpdate = false;
 }
 void Window::Update(){
     glfwSwapBuffers(s_Window);

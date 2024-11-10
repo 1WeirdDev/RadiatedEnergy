@@ -25,6 +25,8 @@ public:
     
     static bool IsKeyPressed(uint16_t key) noexcept;
     static bool IsKeyDown(uint16_t key) noexcept;
+
+    static void OnLostFocus();
 private:
     static std::array<uint8_t, 500> s_Keys;
     static std::vector<uint16_t> s_KeysToSet;

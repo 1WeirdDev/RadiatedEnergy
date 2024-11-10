@@ -1,11 +1,11 @@
 #include "pch.h"
 #include "Game.h"
 
-#include "Display/Window.h"
+#include "Rendering/Window.h"
 
 int main(int argc, char** argv){
     Game::Init();
-    while(Window::ShouldBeOpen()){
+    while(Window::ShouldUpdate()){
         Game::Update();
         Game::Draw();
     }

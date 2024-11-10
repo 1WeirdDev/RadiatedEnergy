@@ -42,10 +42,10 @@ Files += $(SRC_DIR)Networking/Client.cpp
 
 #Core
 Files += $(SRC_DIR)Core/Logger.cpp
-Files += $(SRC_DIR)/Core/Time.h
+Files += $(SRC_DIR)Core/Time.cpp
 
 #Rendering
-Files += $(SRC_DIR)Display/Window.cpp
+Files += $(SRC_DIR)Rendering/Window.cpp
 
 #Input
 Files += $(SRC_DIR)Input/Keyboard.cpp

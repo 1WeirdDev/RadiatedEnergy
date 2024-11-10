@@ -2,7 +2,7 @@
 #include "Game.h"
 
 #include "Core/Logger.h"
-#include "Display/Window.h"
+#include "Rendering/Window.h"
 #include "Input/Mouse.h"
 #include "Scene/SceneManager.h"
 #include "Scene/Scenes/MainMenuScene.h"
@@ -24,7 +24,7 @@ void Game::Shutdown(){
     s_Client->Stop();
     SceneManager::Shutdown();
     Keyboard::Shutdown();
-    Window::Shutdown();
+    Window::Destroy();
 }
 
 void Game::Update(){
@@ -44,3 +44,11 @@ void Game::OnKeyEvent(KeyState state, uint8_t modifiers, uint16_t key){
 void Game::OnMouseButtonEvent(bool isDown, uint8_t key){
     CORE_DEBUG("MOUSE {1} BUTTON IS {0} down", isDown ? "Down" : "Up", key);
 }
+void Game::OnWindowFocusCallback(bool focused){
+    if(!focused)return;
+    Keyboard::OnLostFocus();
+    Mouse::OnLostFocus();
+}
+
+void Game::OnWindowResizeEvent(int width, int height){}
+void Game::OnWindowPosCallback(int xPos, int yPos){}
