@@ -3,7 +3,7 @@
 #include "Display/Window.h"
 #include "Core/Logger.h"
 
-std::array<char, 500> Keyboard::s_Keys;
+std::array<uint8_t, 500> Keyboard::s_Keys;
 std::vector<uint16_t> Keyboard::s_KeysToSet;
 
 //TODO: Maybe have keys be some sort of custom keycode instead of glfw
@@ -13,16 +13,19 @@ void Keyboard::Init(){
     glfwSetKeyCallback(Window::GetWindow(), [](GLFWwindow* window, int key, int scancode, int action, int mods){
         if(key < 0 || key >= 500)return;
 
-        KeyPressState state;
+        KeyState state;
         switch(action){
         case GLFW_PRESS:
-            state = KeyPressState::Pressed;
+            s_Keys[key] = (uint8_t)KeyState::Pressed;
+            state = KeyState::Pressed;
+            s_KeysToSet.push_back(key);
             break;
         case GLFW_RELEASE:
-            state = KeyPressState::Released;
+            s_Keys[key] = (uint8_t)KeyState::Released;
+            state = KeyState::Released;
             break;
         case GLFW_REPEAT:
-            state = KeyPressState::Repeated;
+            state = KeyState::Repeated;
             break;
         default:
             return;
@@ -36,8 +39,6 @@ void Keyboard::Init(){
 
         //Key Event
         Game::OnKeyEvent(state, modifiers, key);
-        
-        s_KeysToSet.push_back(key);
     });
     CORE_INFO("Initialized Keyboard");
 }
@@ -47,7 +48,15 @@ void Keyboard::Shutdown(){
 void Keyboard::Update(){
     for(size_t i = 0; i < s_KeysToSet.size();i++){
         uint16_t key = s_KeysToSet[i];
-        if(s_Keys[key])s_Keys[key] = (uint8_t)KeyPressState::Released;
+        if(s_Keys[key] == (uint8_t)KeyState::Pressed)s_Keys[key] = (uint8_t)KeyState::Repeated;
     }
     s_KeysToSet.resize(0);
+}
+bool Keyboard::IsKeyPressed(uint16_t key) noexcept{
+    if(key < 0 || key >= s_Keys.size())return false;
+    return s_Keys[key] == (uint8_t)KeyState::Pressed;
+}
+bool Keyboard::IsKeyDown(uint16_t key) noexcept{
+    if(key < 0 || key >= s_Keys.size())return false;
+    return s_Keys[key] != (uint8_t)KeyState::Released;
 }

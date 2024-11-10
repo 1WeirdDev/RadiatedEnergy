@@ -11,7 +11,7 @@ public:
     static void Update();
     static void Draw();
 
-    static void OnKeyEvent(KeyPressState state, uint8_t modifiers, uint16_t key);
+    static void OnKeyEvent(KeyState state, uint8_t modifiers, uint16_t key);
     static void OnMouseButtonEvent(bool isDown, uint8_t key);
 public:
     static std::shared_ptr<Client>& GetClient() noexcept{return s_Client;}

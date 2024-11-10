@@ -10,7 +10,7 @@ enum class KeyModifierBit{
     CapsLock=(1<<4),
 };
 
-enum class KeyPressState{
+enum class KeyState{
     Released=0,
     Repeated,
     Pressed
@@ -22,7 +22,10 @@ public:
     static void Shutdown();
 
     static void Update();
+    
+    static bool IsKeyPressed(uint16_t key) noexcept;
+    static bool IsKeyDown(uint16_t key) noexcept;
 private:
-    static std::array<char, 500> s_Keys;
+    static std::array<uint8_t, 500> s_Keys;
     static std::vector<uint16_t> s_KeysToSet;
 };

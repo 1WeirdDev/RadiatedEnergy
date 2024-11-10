@@ -37,8 +37,8 @@ void Game::Draw(){
     Window::Update();
 }
 
-void Game::OnKeyEvent(KeyPressState state, uint8_t modifiers, uint16_t key){
-    CORE_DEBUG("Key {0} pressed. State {1} modifiers {2}", key, (uint8_t)state, modifiers);
+void Game::OnKeyEvent(KeyState state, uint8_t modifiers, uint16_t key){
+    //CORE_DEBUG("Key {0} pressed. State {1} modifiers {2}", key, (uint8_t)state, modifiers);
 }
 
 void Game::OnMouseButtonEvent(bool isDown, uint8_t key){
