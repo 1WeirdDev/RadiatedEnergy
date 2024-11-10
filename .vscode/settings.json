@@ -96,5 +96,6 @@
         "typeindex": "cpp",
         "*.ipp": "cpp",
         "unordered_set": "cpp"
-    }
+    },
+    "workbench.colorTheme": "Bearded Theme Monokai Stone"
 }
