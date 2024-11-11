@@ -12,8 +12,8 @@ public:
     UDim2(ScaleType scaleX, ScaleType scaleY, OffsetType offsetX, OffsetType offsetY):
         m_ScaleX(static_cast<ScaleType>(scaleX)),
         m_ScaleY(static_cast<ScaleType>(scaleY)),
-        m_OffsetX(static_cast<OffsetType>(m_OffsetX)),
-        m_OffsetY(static_cast<OffsetType>(m_OffsetY)){
+        m_OffsetX(static_cast<OffsetType>(offsetX)),
+        m_OffsetY(static_cast<OffsetType>(offsetY)){
     }
 
     ScaleType m_ScaleX;

@@ -58,9 +58,9 @@ Files += $(SrcDir)Rendering/Gui/UIDisplayManager.cpp
 Files += $(SrcDir)Rendering/Gui/UI.cpp
 #GUIS
 UisDir = $(SrcDir)Rendering/Gui/UIS/
-Files += $(UisDir)Button.cpp
-Files += $(UisDir)Image.cpp
-Files += $(UisDir)TextLabel.cpp
+Files += $(UisDir)UIButton.cpp
+Files += $(UisDir)UIImage.cpp
+Files += $(UisDir)UITextLabel.cpp
 
 #Meshes
 MeshSrc = $(SrcDir)Rendering/Mesh/

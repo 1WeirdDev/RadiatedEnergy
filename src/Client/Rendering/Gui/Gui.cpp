@@ -21,11 +21,11 @@ void Gui::Draw() const{
     }
 }
 
-void Gui::AddButtonReference(Button* button){
+void Gui::AddButtonReference(UIButton* button){
     m_Buttons.push_back(button);
 }
 
-void Gui::RemoveButtonReference(Button* button){
+void Gui::RemoveButtonReference(UIButton* button){
     for(size_t i = 0; i < m_Buttons.size(); i++){
         if(m_Buttons[i] == button){
             m_Buttons.erase(m_Buttons.begin() + i);

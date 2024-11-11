@@ -1,7 +1,7 @@
 #pragma once
 
 #include "UI.h"
-#include "UIs/Button.h"
+#include "UIs/UIButton.h"
 
 class Gui{
 public:
@@ -14,20 +14,20 @@ public:
     /// @brief Creates a new instance of a ui that the gui owns and adds it to list
     /// @tparam UIType A type that derives from base class UI 
     /// @return returns the newly created instance of ui
-    template <typename UIType, typename ...Arg>
-    UIType* CreateChild(Arg&&... args){
-        UIType* ui = new UIType(this, args...);
+    template <typename TYPE, typename ...Arg>
+    TYPE* CreateChild(Arg&&... args){
+        TYPE* ui = new TYPE(this, args...);
         ui->m_Gui = this;
         m_Children.push_back(ui);
 
-        if(ui->m_UIType == UT_Button)
-            m_Buttons.push_back((Button*)ui);
+        if(ui->m_UIType == UIType::Button)
+            m_Buttons.push_back((UIButton*)ui);
 
         return ui;
     }
 
-    void AddButtonReference(Button* button);
-    void RemoveButtonReference(Button* button);
+    void AddButtonReference(UIButton* button);
+    void RemoveButtonReference(UIButton* button);
 
     bool OnMouseButtonEvent(int button, bool isDown);
     void OnWindowResizeEvent(int width, int height);
@@ -35,5 +35,5 @@ private:
     //Can be touched by friend class Button
 private:
     std::vector<UI*> m_Children;
-    std::vector<Button*> m_Buttons;
+    std::vector<UIButton*> m_Buttons;
 };

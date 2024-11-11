@@ -4,11 +4,11 @@
 #include "../Font.h"
 #include "Math/Vec3.h"
 
-class TextLabel : public UI{
+class UITextLabel : public UI{
 public:
-    TextLabel(class Gui* gui);
-    TextLabel(class Gui* gui, Font* font);
-    ~TextLabel();
+    UITextLabel(class Gui* gui);
+    UITextLabel(class Gui* gui, Font* font);
+    ~UITextLabel();
 
     void SetFont(Font* font);
     void SetText(const char* text);

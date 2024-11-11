@@ -5,12 +5,12 @@
 #include "Math/UDim2.h"
 
 #define TEXT_LABEL_MAX_CHAR_COUNT 100
-enum UIType{
-    UT_None= 0,
-    UT_Frame,
-    UT_Button,
-    UT_Image,
-    UT_TextLabel
+enum class UIType{
+    None= 0,
+    Frame,
+    Button,
+    Image,
+    TextLabel
 };
 
 enum ScreenSizeRestraint{
@@ -107,7 +107,7 @@ public:
 protected:
     void CallChildrenWindowResizeEvent(int width, int height);
 protected:
-    UIType m_UIType = UIType::UT_None;
+    UIType m_UIType = UIType::None;
     UI* m_Parent = nullptr;
     Gui* m_Gui = nullptr;
     std::vector<UI*> m_Children;

@@ -10,7 +10,7 @@ void UIFrameShader::Create(){
     uniform vec2 uiScale;\n \
     uniform vec2 uiPos;\n \
     uniform int zIndex;\n \
-    void main(){gl_Position = projMatrix * vec4(uiPos + (vertex * uiScale), 0, 1);}";
+    void main(){gl_Position = projMatrix * vec4(uiPos + (vertex * uiScale), -float(zIndex) / 100.0, 1);}";
     //void main(){gl_Position = projMatrix * vec4(uiPos + (vertex * uiScale), 0, 1);}";
 
     const char* fragmentShaderData = "#version 330 core\n \
@@ -35,7 +35,6 @@ void UIFrameShader::LoadScale(float x, float y) const noexcept{
     LoadVector2(m_ScaleLocation, x, y);
 }
 void UIFrameShader::LoadPosition(float x, float y) const noexcept{
-    CORE_DEBUG("LOADING POSITION ({0}, {1})", x, y);
     LoadVector2(m_PositionLocation, x, y);
 }
 void UIFrameShader::LoadColor(const Vec3<float>& color) const noexcept{

@@ -1,24 +1,24 @@
 #include "pch.h"
-#include "TextLabel.h"
-
+#include "UITextLabel.h"
 #include "Rendering/Window.h"
 #include "Core/Logger.h"
 
-TextLabel::TextLabel(class Gui* gui) : UI(gui), m_TextColor(0.0f, 0.0f, 0.0f){
-    m_UIType = UT_TextLabel; 
+UITextLabel::UITextLabel(class Gui* gui) : UI(gui), m_TextColor(0.0f, 0.0f, 0.0f){
+    m_UIType = UIType::TextLabel; 
 }
-TextLabel::TextLabel(class Gui* gui, Font* font) : UI(gui) {
+UITextLabel::UITextLabel(class Gui* gui, Font* font) : UI(gui) {
+    m_UIType = UIType::TextLabel; 
     m_Font = font;
 }
-TextLabel::~TextLabel(){
+UITextLabel::~UITextLabel(){
     delete[] m_RenderData;
 }
 
-void TextLabel::SetFont(Font* font){
+void UITextLabel::SetFont(Font* font){
     m_Font = font; 
     Update();
 }
-void TextLabel::SetText(const char* text){
+void UITextLabel::SetText(const char* text){
     m_Text = text;
 
     m_StringLength = m_Text.size();
@@ -32,7 +32,7 @@ void TextLabel::SetText(const char* text){
     m_DataCount = 0;
     Update();
 }
-void TextLabel::Update(){
+void UITextLabel::Update(){
     if(m_Font == nullptr){
         CORE_WARN("Cant update text label without font");
         return;
@@ -126,6 +126,6 @@ void TextLabel::Update(){
     for(uint32_t i = 0; i < m_DataCount; i++)
         m_RenderData[i].m_PositionY -= offset;
 }
-void TextLabel::OnWindowResizeEvent(int width, int height){
+void UITextLabel::OnWindowResizeEvent(int width, int height){
     Update();
 }

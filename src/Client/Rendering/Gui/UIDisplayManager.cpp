@@ -5,9 +5,9 @@
 #include "Core/Logger.h"
 #include "Rendering/Window.h"
 #include "Math/MatrixUtils.h"
-#include "Rendering/Gui/UIs/Image.h"
-#include "Rendering/Gui/UIs/Frame.h"
-#include "Rendering/Gui/UIs/TextLabel.h"
+#include "Rendering/Gui/UIs/UIImage.h"
+#include "Rendering/Gui/UIs/UIFrame.h"
+#include "Rendering/Gui/UIs/UITextLabel.h"
 
 UIFrameShader UIDisplayManager::s_FrameShader;
 UIImageShader UIDisplayManager::s_ImageShader;
@@ -96,37 +96,35 @@ void UIDisplayManager::DrawUI(UI* ui, int zIndex){
     glActiveTexture(GL_TEXTURE0);
     //s_Texture.Load();
     switch(ui->GetUIType()){
-    case UT_Frame:{
+    case UIType::Frame:{
         s_FrameShader.Start();
         s_FrameShader.LoadScale(globalSize.m_X, globalSize.m_Y);
         s_FrameShader.LoadPosition(globalPosition.m_X, globalPosition.m_Y);
-        s_FrameShader.LoadColor(((Frame&)*ui).m_Color);
+        s_FrameShader.LoadColor(((UIFrame&)*ui).m_Color);
         s_FrameShader.LoadZIndex(zIndex);
         s_BasicMesh.Draw();
         break;
     }
-    case UT_Image:{
+    case UIType::Image:{
         s_ImageShader.Start();
         s_ImageShader.LoadScale(globalSize.m_X, globalSize.m_Y);
         s_ImageShader.LoadPosition(globalPosition.m_X, globalPosition.m_Y);
         s_ImageShader.LoadZIndex(zIndex);
-        glBindTexture(GL_TEXTURE_2D, ((Image*)ui)->GetTextureId());
+        glBindTexture(GL_TEXTURE_2D, ((UIImage*)ui)->GetTextureId());
         s_TexturedMesh.Draw();
         break;
     }
-    case UT_TextLabel:{
-        TextLabel* textLabel = (TextLabel*)ui;
+    case UIType::TextLabel:{
+        UITextLabel* textLabel = (UITextLabel*)ui;
         Font* font = textLabel->GetFont();
 
         if(font == nullptr){
             break;
         }
-        //CORE_DEBUG("DRAWING TEXT LABEL");
         UITextShader& shader = font->GetShader();
 
         shader.Start();
         uint16_t fontSize = font->GetFontSize();
-        shader.Start();
         shader.LoadFontSize(fontSize);
         shader.LoadZIndex(zIndex + textLabel->m_ZIndex);
         shader.LoadTextColor(textLabel->m_TextColor.m_Y, textLabel->m_TextColor.m_Y, textLabel->m_TextColor.m_Z);

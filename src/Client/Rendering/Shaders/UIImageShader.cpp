@@ -14,7 +14,7 @@ void UIImageShader::Create(){
     out vec2 textureCoords;\n \
     void main(){\n \
     textureCoords = textureCoord;\
-    gl_Position = projMatrix * vec4(uiPos + (vertex * uiScale), 0.5 - (float(zIndex) / 100.0), 1);}";
+    gl_Position = projMatrix * vec4(uiPos + (vertex * uiScale), -float(zIndex) / 100.0, 1);}";
 
     const char* fragmentShaderData = "#version 330 core\n \
     in vec2 textureCoords;\n \

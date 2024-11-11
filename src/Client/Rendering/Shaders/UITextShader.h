@@ -13,7 +13,7 @@ public:
     void LoadWindowSize(float width, float height) const noexcept;
     void LoadZIndex(int value) const noexcept;
     void LoadScale(float value) const noexcept;
-    void LoadFontSize(float font_size) const noexcept;
+    void LoadFontSize(float fontSize) const noexcept;
     void LoadTextColor(float r, float g, float b) const noexcept;
 public:
     int GetProjectionMatrixLocation() const noexcept{return m_ProjectionMatrixLocation;}

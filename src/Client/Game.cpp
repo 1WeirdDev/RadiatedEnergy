@@ -2,6 +2,7 @@
 #include "Game.h"
 
 #include "Core/Logger.h"
+#include "Core/Time.h"
 #include "Rendering/Window.h"
 #include "Input/Mouse.h"
 #include "Scene/SceneManager.h"
@@ -17,6 +18,10 @@ void Game::Init(){
     Keyboard::Init();
     Mouse::Init();
 
+    Time::Init();
+
+    Window::SetBackgroundColor(0.5f, 0.5f, 0.5f);
+
     SceneManager::MakeScene<MainMenuScene>(LoadSceneMode::Single);
     s_Client = std::make_shared<Client>();
     s_Client->Start();
@@ -31,6 +36,7 @@ void Game::Shutdown(){
 }
 
 void Game::Update(){
+    Time::Update();
     SceneManager::Update();
     Keyboard::Update();
     Mouse::Update();

@@ -3,7 +3,7 @@
 
 #include "Rendering/Window.h"
 #include "Core/Logger.h"
-UI::UI(Gui* gui) : m_Position(0,0,0,0), m_GlobalPosition(0,0), m_Size(1, 1, 0, 0), m_GlobalSize(1,1), m_UIType(UT_None) {m_Gui = gui;}
+UI::UI(Gui* gui) : m_Position(0,0,0,0), m_GlobalPosition(0,0), m_Size(1, 1, 0, 0), m_GlobalSize(1,1), m_UIType(UIType::None) {m_Gui = gui;}
 UI::~UI(){}
 
 
@@ -84,9 +84,8 @@ void UI::CalculateGlobalData() noexcept{
     m_GlobalSize.m_X += m_Size.m_OffsetX * Window::GetPixelSizeX();
     m_GlobalSize.m_Y += m_Size.m_OffsetY * Window::GetPixelSizeY();
 
-    for(size_t i = 0; i < m_Children.size(); i++){
+    for(size_t i = 0; i < m_Children.size(); i++)
         m_Children[i]->CalculateGlobalData();
-    }
 }
 void UI::CallChildrenWindowResizeEvent(int width, int height){
     for(size_t i = 0; i < m_Children.size(); i++){

@@ -4,11 +4,11 @@
 
 //#include "Rendering/Textures/Texture.h"
 
-class Image : public UI{
+class UIImage : public UI{
 public:
-    Image(class Gui* gui);
-    Image(class Gui* gui, GLuint texture);
-    ~Image();
+    UIImage(class Gui* gui);
+    UIImage(class Gui* gui, GLuint texture);
+    ~UIImage();
     
     void SetTextureId(GLuint texture){m_TextureId = texture;}
     GLuint GetTextureId() const noexcept{return m_TextureId;}

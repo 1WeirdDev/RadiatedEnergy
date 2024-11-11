@@ -1,18 +1,18 @@
 #include "pch.h"
 #include "Time.h"
 
-double Time::s_FrameStartTime = 0;
-double Time::s_LastFrameStartTime = 0;
-double Time::s_DeltaTime = 0;
+std::chrono::high_resolution_clock::time_point Time::s_FrameStart;
+std::chrono::high_resolution_clock::time_point Time::s_LastFrameStart;
+double Time::s_DeltaTime;
 
 void Time::Init(){
-    s_FrameStartTime = 0;
-    s_LastFrameStartTime = 0;
-    s_DeltaTime = 0;
+    s_FrameStart = std::chrono::steady_clock::now();
+    s_LastFrameStart = std::chrono::steady_clock::now();
+    s_DeltaTime = 0.0001f;
 }
 void Time::Shutdown(){}
 void Time::Update(){
-    s_FrameStartTime = glfwGetTime();
-    s_DeltaTime = s_FrameStartTime = s_LastFrameStartTime;
-    s_LastFrameStartTime = s_FrameStartTime;
+    s_FrameStart = std::chrono::steady_clock::now();
+    s_DeltaTime = (float)((s_FrameStart - s_LastFrameStart).count() / 1000000000.0);
+    s_LastFrameStart = s_FrameStart;
 }

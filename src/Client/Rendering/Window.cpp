@@ -104,7 +104,6 @@ void Window::Create(){
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(ErrorCallback, nullptr);
 #endif
-
     glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 

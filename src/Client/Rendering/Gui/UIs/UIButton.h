@@ -3,10 +3,10 @@
 #include "../UI.h"
 
 typedef std::function<bool(int button, bool isDown)> MouseButtonCallback;
-class Button : public UI{
+class UIButton : public UI{
 public:
-    Button(class Gui* gui);
-    ~Button();
+    UIButton(class Gui* gui);
+    ~UIButton();
 
     MouseButtonCallback* AddMouseButtonCallback(MouseButtonCallback callback);
 
