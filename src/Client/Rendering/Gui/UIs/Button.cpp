@@ -8,7 +8,6 @@ Button::Button(class Gui* gui) : UI(gui){
 }
 Button::~Button(){
     m_Gui->RemoveButtonReference(this);
-    DeleteChildren();
 }
 MouseButtonCallback* Button::AddMouseButtonCallback(MouseButtonCallback callback){
     m_MouseButtonCallbacks.push_back(callback);

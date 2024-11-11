@@ -6,12 +6,14 @@
 #include "Input/Mouse.h"
 #include "Scene/SceneManager.h"
 #include "Scene/Scenes/MainMenuScene.h"
+#include "Rendering/Gui/UIDisplayManager.h"
 
 std::shared_ptr<Client> Game::s_Client;
 
 void Game::Init(){
     Logger::Init();
     Window::Create();
+    UIDisplayManager::Init();
     Keyboard::Init();
     Mouse::Init();
 
@@ -24,6 +26,7 @@ void Game::Shutdown(){
     s_Client->Stop();
     SceneManager::Shutdown();
     Keyboard::Shutdown();
+    UIDisplayManager::Shutdown();
     Window::Destroy();
 }
 

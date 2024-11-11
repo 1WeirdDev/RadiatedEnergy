@@ -45,9 +45,9 @@ struct CharacterRenderData{
 };
 
 struct CharacterDrawData{
-    float x;
-    float y;
-    float ratio;
+    float m_X;
+    float m_Y;
+    float m_Ratio;
 };
 
 class Gui;

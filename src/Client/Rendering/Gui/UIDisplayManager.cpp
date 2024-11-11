@@ -98,8 +98,8 @@ void UIDisplayManager::DrawUI(UI* ui, int zIndex){
     switch(ui->GetUIType()){
     case UT_Frame:{
         s_FrameShader.Start();
-        s_FrameShader.LoadScale(globalSize.x, globalSize.y);
-        s_FrameShader.LoadPosition(globalPosition.x, globalPosition.y);
+        s_FrameShader.LoadScale(globalSize.m_X, globalSize.m_Y);
+        s_FrameShader.LoadPosition(globalPosition.m_X, globalPosition.m_Y);
         s_FrameShader.LoadColor(((Frame&)*ui).m_Color);
         s_FrameShader.LoadZIndex(zIndex);
         s_BasicMesh.Draw();
@@ -107,8 +107,8 @@ void UIDisplayManager::DrawUI(UI* ui, int zIndex){
     }
     case UT_Image:{
         s_ImageShader.Start();
-        s_ImageShader.LoadScale(globalSize.x, globalSize.y);
-        s_ImageShader.LoadPosition(globalPosition.x, globalPosition.y);
+        s_ImageShader.LoadScale(globalSize.m_X, globalSize.m_Y);
+        s_ImageShader.LoadPosition(globalPosition.m_X, globalPosition.m_Y);
         s_ImageShader.LoadZIndex(zIndex);
         glBindTexture(GL_TEXTURE_2D, ((Image*)ui)->GetTextureId());
         s_TexturedMesh.Draw();
@@ -129,7 +129,7 @@ void UIDisplayManager::DrawUI(UI* ui, int zIndex){
         shader.Start();
         shader.LoadFontSize(fontSize);
         shader.LoadZIndex(zIndex + textLabel->m_ZIndex);
-        shader.LoadTextColor(textLabel->m_TextColor.x, textLabel->m_TextColor.y, textLabel->m_TextColor.z);
+        shader.LoadTextColor(textLabel->m_TextColor.m_Y, textLabel->m_TextColor.m_Y, textLabel->m_TextColor.m_Z);
         glBindTexture(GL_TEXTURE_2D, font->GetTextureId());
         uint32_t count = textLabel->GetCharacterRenderDataCount();
         CharacterRenderData* data = textLabel->GetCharacterRenderData();

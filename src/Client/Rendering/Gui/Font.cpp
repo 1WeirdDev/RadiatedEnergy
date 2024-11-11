@@ -146,9 +146,9 @@ void Font::LoadFont(const char *location)
     // Fill the buffer with data
     for (unsigned char i = 0; i < 127; i++) {
         char c = i;
-        characterDrawData[i].x = m_Characters.at(c).position.x;
-        characterDrawData[i].y = m_Characters.at(c).position.y;
-        characterDrawData[i].ratio = m_Characters.at(c).ratio;
+        characterDrawData[i].m_X = m_Characters.at(c).m_Position.m_X;
+        characterDrawData[i].m_Y = m_Characters.at(c).m_Position.m_Y;
+        characterDrawData[i].m_Ratio = m_Characters.at(c).m_Ratio;
     }
     glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 

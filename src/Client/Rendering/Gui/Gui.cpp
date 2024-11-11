@@ -2,13 +2,13 @@
 #include "Gui.h"
 
 #include "UIDisplayManager.h"
-#include "Input/Input.h"
-
+#include "Input/Mouse.h"
 Gui::Gui(){}
 Gui::~Gui(){CleanUp();}
 
 void Gui::CleanUp(){
     for(size_t i = 0; i < m_Children.size(); i++){
+        m_Children[i]->DeleteChildren();
         delete m_Children[i];
     }
     m_Children.resize(0);
@@ -36,13 +36,13 @@ void Gui::RemoveButtonReference(Button* button){
 
 bool Gui::OnMouseButtonEvent(int button, bool isDown){
     for(size_t i = 0; i < m_Buttons.size(); i++){
-        float mouseX = Input::GetMouseNormalizedX();
-        float mouseY = Input::GetMouseNormalizedY();
+        float mouseX = Mouse::GetNormalizedMouseX();
+        float mouseY = Mouse::GetNormalizedMouseY();
 
         Vec2<float> pos = m_Buttons[i]->GetGlobalPosition();
         Vec2<float> scale = m_Buttons[i]->GetGlobalSize();
         
-        if(mouseX < pos.x || mouseX >= pos.x + scale.x || mouseY < pos.y || mouseY >= pos.y + scale.y)continue;
+        if(mouseX < pos.m_X || mouseX >= pos.m_X + scale.m_X || mouseY < pos.m_Y || mouseY >= pos.m_Y + scale.m_Y)continue;
 
         const std::vector<MouseButtonCallback>& callbacks = m_Buttons[i]->GetMouseButtonCallbacks();
         for(size_t j = 0; j < callbacks.size(); j++){

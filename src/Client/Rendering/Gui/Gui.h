@@ -11,11 +11,11 @@ public:
     void CleanUp();
     void Draw() const;
 
-    /// @brief Creates a new instance of a ui and adds it as a child
+    /// @brief Creates a new instance of a ui that the gui owns and adds it to list
     /// @tparam UIType A type that derives from base class UI 
     /// @return returns the newly created instance of ui
     template <typename UIType, typename ...Arg>
-    UIType* CreateChild(Arg... args){
+    UIType* CreateChild(Arg&&... args){
         UIType* ui = new UIType(this, args...);
         ui->m_Gui = this;
         m_Children.push_back(ui);

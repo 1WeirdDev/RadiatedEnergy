@@ -1,6 +1,9 @@
 #pragma once
 
 #include "../Scene.h"
+
+#include "Rendering/Gui/Gui.h"
+
 class MainMenuScene: public Scene{
 public:
     MainMenuScene();
@@ -11,4 +14,6 @@ public:
     void Draw() override;
 
     void HandleKeyEvent(bool& handled, KeyState state, uint8_t modifiers, uint16_t key) override;
+private:
+    Gui m_Gui;
 };

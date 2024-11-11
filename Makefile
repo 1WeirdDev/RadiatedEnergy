@@ -9,7 +9,8 @@ Arch = x64
 
 OUTPUT_DIR = bin/$(Configuration)-$(Platform)/$(Type)/
 INT_DIR = bin-int/$(Configuration)-$(Platform)/$(Type)/
-SRC_DIR=src/$(Type)/
+SrcDir=src/$(Type)/
+SharedDir=src/Shared/
 MF =
 RF = 
 CC = 
@@ -34,7 +35,7 @@ make_folders:
 	$(MF) $(INT_DIR)
 	$(MF) $(OUTPUT_DIR)
 buildpch:
-	$(CC) $(CFlags) $(Defines) $(IncludeDirs) /Ycpch.h /Fp$(INT_DIR)pch.pch $(SRC_DIR)/pch.cpp
+	$(CC) $(CFlags) $(Defines) $(IncludeDirs) /Ycpch.h /Fp$(INT_DIR)pch.pch $(SrcDir)/pch.cpp
 build:
 	$(CC) $(Files) $(CFlags) $(Defines) $(IncludeDirs) /Yupch.h /Fp$(INT_DIR)pch.pch 
 	$(LK) $(LFlags) $(LibDirs) $(Libs)

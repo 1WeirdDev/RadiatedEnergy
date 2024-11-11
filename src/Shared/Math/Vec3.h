@@ -30,6 +30,12 @@ public:
         m_Z(z){
         static_assert(std::is_arithmetic<TYPE>::value, "TYPE must be a numeric type");
     }
+
+    void SetData(TYPE x, TYPE y, TYPE z) noexcept{
+        m_X = x;
+        m_Y = y;
+        m_Z = z;
+    }
 public:
     //TODO: make only available for type float/double
     void Normalize() noexcept{
@@ -39,10 +45,11 @@ public:
         m_Y /= mag;
         m_Z /= mag;
     }
-
     Vec3<TYPE> GetNormalized() const noexcept{
         TYPE mag = GetMagnitude();
-        if(mag <= 1)return;
+        if(mag == 1)return *this;
+        if(mag <= 0.001)mag = 0.001;
+
         return Vec3<TYPE>(m_X / mag, m_Y / mag, m_Z / mag);
     }
     template<typename T>
@@ -93,21 +100,21 @@ public:
     }
 
     Vec3<TYPE> operator+(const Vec3<TYPE> rhs) const noexcept{
-        return Vec3<TYPE>(m_X + rhs.m_X, m_Y + rhs.m_y, m_Z + rhs.m_Z);
+        return Vec3<TYPE>(m_X + rhs.m_X, m_Y + rhs.m_Y, m_Z + rhs.m_Z);
     }
     Vec3<TYPE> operator-(const Vec3<TYPE> rhs) const noexcept{
-        return Vec3<TYPE>(m_X - rhs.m_X, m_Y - rhs.m_y, m_Z - rhs.m_Z);
+        return Vec3<TYPE>(m_X - rhs.m_X, m_Y - rhs.m_Y, m_Z - rhs.m_Z);
     }
     Vec3<TYPE> operator*(const Vec3<TYPE> rhs) const noexcept{
-        return Vec3<TYPE>(m_X * rhs.m_X, m_Y * rhs.m_y, m_Z * rhs.m_Z);
+        return Vec3<TYPE>(m_X * rhs.m_X, m_Y * rhs.m_Y, m_Z * rhs.m_Z);
     }
     Vec3<TYPE> operator/(const Vec3<TYPE> rhs) const noexcept{
-        return Vec3<TYPE>(m_X / rhs.m_X, m_Y / rhs.m_y, m_Z / rhs.m_Z);
+        return Vec3<TYPE>(m_X / rhs.m_X, m_Y / rhs.m_Y, m_Z / rhs.m_Z);
     }
 
     inline bool operator==(const Vec3<TYPE>& rhs) const noexcept {
         static_assert(std::is_arithmetic<TYPE>::value, "TYPE must be a numeric type");
-        return rhs.m_X == m_X && rhs.m_Y == m_Y && rhs.m_z == m_Z;
+        return rhs.m_X == m_X && rhs.m_Y == m_Y && rhs.m_Z == m_Z;
     }
     inline bool operator!=(const Vec3<TYPE>& rhs) const noexcept{
         return rhs.m_X != m_X || rhs.m_Y != m_Y || rhs.m_Z != m_Z;

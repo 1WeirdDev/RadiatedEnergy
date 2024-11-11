@@ -3,7 +3,7 @@
 
 #include "Rendering/Window.h"
 #include "Core/Logger.h"
-UI::UI(Gui* gui) : m_Position(0,0,0,0), m_GlobalPosition(0,0), m_GlobalSize(1,1), m_UIType(UT_None) {m_Gui = gui;}
+UI::UI(Gui* gui) : m_Position(0,0,0,0), m_GlobalPosition(0,0), m_Size(1, 1, 0, 0), m_GlobalSize(1,1), m_UIType(UT_None) {m_Gui = gui;}
 UI::~UI(){}
 
 
@@ -20,8 +20,8 @@ void UI::SetGlobalPosition(float scaleX, float scaleY, uint16_t offsetX, uint16_
     Vec2<float> globalPosition;
     if(m_Parent)
         globalPosition = m_Parent->GetGlobalPosition();
-    m_Position.m_ScaleX = scaleX - globalPosition.x;
-    m_Position.m_ScaleY = scaleY - globalPosition.y;
+    m_Position.m_ScaleX = scaleX - globalPosition.m_X;
+    m_Position.m_ScaleY = scaleY - globalPosition.m_Y;
     m_Position.m_OffsetX = offsetX;
     m_Position.m_OffsetY = offsetY;
     CalculateGlobalData();
@@ -75,14 +75,14 @@ void UI::CalculateGlobalData() noexcept{
         m_GlobalSize *= parentSize;
     }
 
-    m_GlobalPosition.x += m_Position.m_OffsetX * Window::GetPixelSizeX();
-    m_GlobalPosition.y += m_Position.m_OffsetY * Window::GetPixelSizeY();
+    m_GlobalPosition.m_X += m_Position.m_OffsetX * Window::GetPixelSizeX();
+    m_GlobalPosition.m_Y += m_Position.m_OffsetY * Window::GetPixelSizeY();
 
-    m_GlobalSize.x *= m_Size.m_ScaleX;
-    m_GlobalSize.y *= m_Size.m_ScaleY;
+    m_GlobalSize.m_X *= m_Size.m_ScaleX;
+    m_GlobalSize.m_Y *= m_Size.m_ScaleY;
 
-    m_GlobalSize.x += m_Size.m_OffsetX * Window::GetPixelSizeX();
-    m_GlobalSize.y += m_Size.m_OffsetY * Window::GetPixelSizeY();
+    m_GlobalSize.m_X += m_Size.m_OffsetX * Window::GetPixelSizeX();
+    m_GlobalSize.m_Y += m_Size.m_OffsetY * Window::GetPixelSizeY();
 
     for(size_t i = 0; i < m_Children.size(); i++){
         m_Children[i]->CalculateGlobalData();

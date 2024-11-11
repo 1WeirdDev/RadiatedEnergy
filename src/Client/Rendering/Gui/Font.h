@@ -6,11 +6,11 @@
 #include "Rendering/Shaders/UITextShader.h"
 
 struct GlyphCharacter {
-    Vec2<float> position;   //Position into the texture
-    Vec2<float> bearing;   //Position into the texture
-    float ratio;
-    int advance_x = 0;
-    int advance_y = 0;
+    Vec2<float> m_Position;   //Position into the texture
+    Vec2<float> m_Bearing;   //Position into the texture
+    float m_Ratio;
+    int m_AdvanceX = 0;
+    int m_AdvanceY = 0;
 };
 
 //Fonts encapsulate shaders not the other way around

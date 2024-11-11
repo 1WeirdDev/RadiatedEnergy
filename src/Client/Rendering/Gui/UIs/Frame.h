@@ -6,7 +6,7 @@
 class Frame : public UI{
 public:
     Frame(class Gui* gui) : UI(gui), m_Color(1.0f, 1.0f, 1.0f) {m_UIType = UT_Frame;}
-    ~Frame(){DeleteChildren();}
+    ~Frame(){}
     
     Vec3<float> m_Color;
 private:
