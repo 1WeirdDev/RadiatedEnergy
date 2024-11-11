@@ -4,11 +4,15 @@
 
 class Packet{
 public:
+    Packet();
     Packet(uint8_t packetId);
     ~Packet();
+    /// @brief Move Constructor
     Packet(Packet&& packet);
+    /// @brief Copy Constructor
+    Packet(const Packet& packet);
 
-    Packet& operator=(const Packet& right);
+    Packet& operator=(const Packet& packet);
 
     void Free();
     void SetBuffer(uint8_t* data, uint32_t size, bool canDelete);

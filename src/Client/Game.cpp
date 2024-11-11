@@ -22,6 +22,7 @@ void Game::Init(){
 
     Time::Init();
 
+    /*
     Packet packet(15);
     packet.WriteInt16(8012);
     packet.WriteInt32(-1273421);
@@ -36,6 +37,7 @@ void Game::Init(){
     int32_t f2 = packet.ReadInt32();
     uint32_t f3 = packet.ReadUInt32();
     std::string f4 = std::move(packet.ReadString());
+    */
 
     Window::SetBackgroundColor(0.5f, 0.5f, 0.5f);
     

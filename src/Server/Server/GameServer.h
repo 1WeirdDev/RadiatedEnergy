@@ -2,6 +2,7 @@
 
 #include "Client.h"
 
+typedef std::function<void(Client&)> ClientConnectedCallback;
 typedef std::function<void(Packet&, Client&)> PacketReceivedCallback;
 class GameServer{
 public:
@@ -11,7 +12,8 @@ public:
     /// @return returns 0 if successful
     int Start(uint16_t port);
     void Stop();
-
+    
+    void SetClientConnectedCallback(ClientConnectedCallback callback);
     void SetPacketReceivedCallback(PacketReceivedCallback callback);
 public:
     const PacketReceivedCallback& GetPacketReceivedCallback() const noexcept{return m_PacketReceivedCallback;}
@@ -28,6 +30,7 @@ private:
     std::thread m_RunThread;
     bool m_ShouldRun = false;
     std::vector<std::shared_ptr<Client>> m_Clients;
-
+public:
+    ClientConnectedCallback m_ClientConnectedCallback;
     PacketReceivedCallback m_PacketReceivedCallback;
 };

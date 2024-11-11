@@ -10,7 +10,10 @@
 GameScene::GameScene(){}
 void GameScene::Init(){
     Game::GetClient()->SetPacketReceivedCallback([](Packet& packet){
-        CORE_DEBUG("PACKET LENGTH {0}", packet.ReadInt32());
+        uint32_t packetSize = packet.ReadInt32();
+        packet.ReadInt8();
+        std::string data = packet.ReadString();
+        CORE_DEBUG("PACKET LENGTH {0} , data {1}", packetSize, data);
     });
     m_Shader.Create();
     MatrixUtils::TranslateMat4x4(m_Matrix.GetData(), Vec3<float>(0,0, -5));

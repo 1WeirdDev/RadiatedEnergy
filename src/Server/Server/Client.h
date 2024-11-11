@@ -25,6 +25,7 @@ private:
     GameServer& m_Server;
     tcp::socket m_TCPSocket;
     udp::socket m_UDPSocket;
+    bool m_IsConnected = false;
 
     Packet m_ReceivePacket;
     std::array<char, CLIENT_MAX_READ_BUFFER_SIZE> m_TCPReadBuffer;

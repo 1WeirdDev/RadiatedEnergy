@@ -7,7 +7,8 @@ Client::Client(GameServer& server, tcp::socket tcpSocket) :
 m_Server(server),
 m_TCPSocket(std::move(tcpSocket)),
 m_UDPSocket(server.GetIOContext()),
-m_ReceivePacket(0){
+m_ReceivePacket(0),
+m_IsConnected(true){
 }
 
 void Client::Start(){
@@ -15,6 +16,8 @@ void Client::Start(){
     CORE_DEBUG("Starting Client");
 }
 void Client::Disconnect(){
+    if(!m_IsConnected)return;
+
     CORE_DEBUG("Disconnecting Client");
 
     std::error_code ec;
@@ -30,6 +33,7 @@ void Client::Disconnect(){
     CORE_DEBUG("Disconnected Client");
 
     FreeData();
+    m_IsConnected = false;
 }
 void Client::FreeData(){
     for(size_t i = 0; i < m_PacketsToWrite.size(); i++)
@@ -43,7 +47,7 @@ void Client::SendPacket(Packet& packet){
 }
 void Client::SendPacket(Packet&& packet){
     packet.WriteHeaders();
-    m_PacketsToWrite.push_back(packet);
+    m_PacketsToWrite.push_back(std::move(packet));
     StartTCPAsyncWrite();
 }
 void Client::StartTCPAsyncRead(){
@@ -53,7 +57,7 @@ void Client::StartTCPAsyncRead(){
     });
 }
 void Client::StartTCPAsyncWrite(){
-    if(m_IsWritingTCPPacket)return;
+    if(m_IsWritingTCPPacket || !m_IsConnected)return;
     if(m_PacketsToWrite.size() < 1)return;
     m_IsWritingTCPPacket = true;
 

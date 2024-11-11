@@ -4,7 +4,8 @@
 
 GameServer::GameServer():
 m_TCPAcceptor(m_IOContext),
-m_PacketReceivedCallback(0){}
+m_ClientConnectedCallback(nullptr),
+m_PacketReceivedCallback(nullptr){}
 
 int GameServer::Start(uint16_t port){
     CORE_INFO("Starting server on port {0}", port);
@@ -56,6 +57,9 @@ void GameServer::Stop(){
     CORE_INFO("Successfully closed server");
 }
 
+void GameServer::SetClientConnectedCallback(ClientConnectedCallback callback){
+    m_ClientConnectedCallback = callback;
+}
 void GameServer::SetPacketReceivedCallback(PacketReceivedCallback callback){
     m_PacketReceivedCallback = callback;
 }
@@ -69,16 +73,21 @@ void GameServer::StartAccept(){
 
         std::shared_ptr<Client> client = std::make_shared<Client>(*this, std::move(tcpSocket));
         m_Clients.push_back(client);
+        m_ClientConnectedCallback(*client);
         client->Start();
         StartAccept();
     });
 }
 
 void GameServer::RemoveClient(Client& client){
+    CORE_DEBUG("Removing Client");
     for(size_t i = 0; i < m_Clients.size(); i++){
         if(m_Clients[i].get() == &client){
+            CORE_DEBUG("Removing");
             m_Clients.erase(m_Clients.begin() + i);
+            CORE_DEBUG("Success Removing");
             return;
         }
     }
+    CORE_DEBUG("Failed To Remove Client");
 }

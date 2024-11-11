@@ -2,6 +2,13 @@
 #include "Packet.h"
 #include "Core/Logger.h"
 
+Packet::Packet(){
+    m_Size = DEFAULT_PACKET_SIZE;
+    m_Data = new uint8_t[m_Size];
+    m_CanFree = true;
+    m_Pos = sizeof(uint32_t) + sizeof(uint8_t);
+    m_Id = 0;
+}
 Packet::Packet(uint8_t packetId){
     m_Size = DEFAULT_PACKET_SIZE;
     m_Data = new uint8_t[m_Size];
@@ -21,14 +28,31 @@ Packet::Packet(Packet&& packet){
 
     packet.Free();
 }
-Packet& Packet::operator=(const Packet& right){
-    m_Data = right.m_Data;
-    m_Size = right.m_Size;
-    m_CanFree = right.m_CanFree;
-    m_Pos = right.m_Pos;
-    m_Id = right.m_Id;
+Packet::Packet(const Packet& packet){
+    m_Size = packet.m_Size;
+
+    uint8_t* data = new uint8_t[m_Size];
+    memcpy(data, packet.m_Data, m_Size);
+    m_Data = data;
+
+    m_CanFree = true;
+    m_Pos = packet.m_Pos;
+    m_Id = packet.m_Id;
 }
 
+Packet& Packet::operator=(const Packet& packet){
+    Free();
+    m_Size = packet.m_Size;
+
+    uint8_t* data = new uint8_t[m_Size];
+    memcpy(data, packet.m_Data, m_Size);
+    m_Data = data;
+
+    m_CanFree = true;
+    m_Pos = packet.m_Pos;
+    m_Id = packet.m_Id;
+    return *this;
+}
 void Packet::Free(){
     if(m_CanFree){
         delete m_Data;

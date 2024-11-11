@@ -59,7 +59,7 @@ void Client::Disconnect(){
     
     m_TCPSocket.shutdown(m_TCPSocket.shutdown_both, ec);
     m_UDPSocket.shutdown(m_UDPSocket.shutdown_both, ec);
-
+    
     m_TCPSocket.cancel(ec); 
     m_UDPSocket.cancel(ec);
 
