@@ -53,7 +53,6 @@ void GameServer::Stop(){
     if(m_RunThread.joinable())
         m_RunThread.join();
     
-
     CORE_INFO("Successfully closed server");
 }
 

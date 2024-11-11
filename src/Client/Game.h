@@ -17,7 +17,7 @@ public:
     static void OnWindowResizeEvent(int width, int height);
     static void OnWindowPosCallback(int xPos, int yPos);
 public:
-    static std::shared_ptr<Client>& GetClient() noexcept{return s_Client;}
+    static std::shared_ptr<Client> GetClient() noexcept{return s_Client;}
 private:
     static std::shared_ptr<Client> s_Client;
 };

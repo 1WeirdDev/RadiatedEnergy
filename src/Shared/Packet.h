@@ -6,6 +6,7 @@ class Packet{
 public:
     Packet();
     Packet(uint8_t packetId);
+    Packet(uint8_t* data, uint32_t size, bool canFree);
     ~Packet();
     /// @brief Move Constructor
     Packet(Packet&& packet);
@@ -13,6 +14,7 @@ public:
     Packet(const Packet& packet);
 
     Packet& operator=(const Packet& packet);
+    Packet& operator=(Packet&& packet);
 
     void Free();
     void SetBuffer(uint8_t* data, uint32_t size, bool canDelete);
@@ -40,15 +42,16 @@ public:
     uint8_t ReadUInt8();
     std::string ReadString();
 public:
+    /// @return Gets the position that we can write/read from in the vector. Used to write data/get packet size
     uint32_t GetBufferPos() const noexcept{return m_Pos;}
     uint8_t* GetData() const noexcept{return m_Data;}
-    uint32_t GetSize() const noexcept{return m_Size;}
+    /// @return returns the max size of the buffer. Not how much bytes should be sent but how big the buffer can get
+    uint32_t GetBufferSize() const noexcept{return m_BufferSize;}
     bool CanDeleteData() const noexcept{return m_CanFree;}
 private:
     uint8_t* m_Data = nullptr;
     bool m_CanFree = false;
-    uint32_t m_Size = 0;
-
+    uint32_t m_BufferSize = 0;
     /// @brief the position at which we read/write at
     uint32_t m_Pos = 0;
 

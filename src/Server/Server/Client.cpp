@@ -7,7 +7,7 @@ Client::Client(GameServer& server, tcp::socket tcpSocket) :
 m_Server(server),
 m_TCPSocket(std::move(tcpSocket)),
 m_UDPSocket(server.GetIOContext()),
-m_ReceivePacket(0),
+m_ReceivePacket((uint8_t*)m_TCPReadBuffer.data(), m_TCPReadBuffer.size(), false),
 m_IsConnected(true){
 }
 
@@ -32,7 +32,7 @@ void Client::Disconnect(){
     m_Server.RemoveClient(*this);
     CORE_DEBUG("Disconnected Client");
 
-    FreeData();
+    //FreeData();
     m_IsConnected = false;
 }
 void Client::FreeData(){
@@ -42,7 +42,7 @@ void Client::FreeData(){
 }
 void Client::SendPacket(Packet& packet){
     packet.WriteHeaders();
-    m_PacketsToWrite.emplace_back(packet);
+    m_PacketsToWrite.push_back(packet);
     StartTCPAsyncWrite();
 }
 void Client::SendPacket(Packet&& packet){
@@ -57,12 +57,13 @@ void Client::StartTCPAsyncRead(){
     });
 }
 void Client::StartTCPAsyncWrite(){
+    auto self = shared_from_this();
     if(m_IsWritingTCPPacket || !m_IsConnected)return;
     if(m_PacketsToWrite.size() < 1)return;
     m_IsWritingTCPPacket = true;
 
-    auto self = shared_from_this();
-    m_TCPSocket.async_write_some(asio::buffer(m_PacketsToWrite[0].GetData(), CLIENT_MAX_READ_BUFFER_SIZE), [self](const std::error_code& ec, size_t bytesTransferred){
+    Packet& packet = m_PacketsToWrite[0];
+    m_TCPSocket.async_write_some(asio::buffer(packet.GetData(), packet.GetBufferPos()), [self](const std::error_code& ec, size_t bytesTransferred){
         self->OnTCPAsyncWrite(ec, bytesTransferred);
     });
 }
@@ -83,7 +84,8 @@ void Client::OnTCPAsyncWrite(const std::error_code& ec, size_t bytesTransferred)
         return;
     }
     CORE_DEBUG("Wrote {0} bytes.", bytesTransferred);
+    m_PacketsToWrite[0].Free();
     m_PacketsToWrite.erase(m_PacketsToWrite.begin());
     m_IsWritingTCPPacket = false;
-    StartTCPAsyncRead();
+    StartTCPAsyncWrite();
 }

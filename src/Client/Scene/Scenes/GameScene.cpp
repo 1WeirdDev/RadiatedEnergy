@@ -10,11 +10,18 @@
 GameScene::GameScene(){}
 void GameScene::Init(){
     Game::GetClient()->SetPacketReceivedCallback([](Packet& packet){
+        CORE_DEBUG("CALLED RECDEIVED CALLBVACK");
         uint32_t packetSize = packet.ReadInt32();
         packet.ReadInt8();
         std::string data = packet.ReadString();
         CORE_DEBUG("PACKET LENGTH {0} , data {1}", packetSize, data);
+
+        Packet sendPacket;
+        sendPacket.PrepareWrite();
+        sendPacket.WriteString("Welcome From Client");
+        Game::GetClient()->SendTCPPacket(std::move(sendPacket));
     });
+    Game::GetClient()->Connect("127.0.0.1", 8888);
     m_Shader.Create();
     MatrixUtils::TranslateMat4x4(m_Matrix.GetData(), Vec3<float>(0,0, -5));
     m_Shader.LoadTransformationMatrix(m_Matrix.GetData());

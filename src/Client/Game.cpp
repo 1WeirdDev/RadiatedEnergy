@@ -41,11 +41,10 @@ void Game::Init(){
 
     Window::SetBackgroundColor(0.5f, 0.5f, 0.5f);
     
-    SceneManager::MakeScene<MainMenuScene>(LoadSceneMode::Single);
-    SceneManager::MakeScene<GameScene>(LoadSceneMode::Additive);
     s_Client = std::make_shared<Client>();
     s_Client->Start();
-    s_Client->Connect("127.0.0.1", 8888);
+    SceneManager::MakeScene<MainMenuScene>(LoadSceneMode::Single);
+    SceneManager::MakeScene<GameScene>(LoadSceneMode::Additive);
 }
 void Game::Shutdown(){
     s_Client->Stop();

@@ -3,36 +3,47 @@
 #include "Core/Logger.h"
 
 Packet::Packet(){
-    m_Size = DEFAULT_PACKET_SIZE;
-    m_Data = new uint8_t[m_Size];
+    CORE_DEBUG("ALLOCATED PACKET DATA");
+    m_BufferSize = DEFAULT_PACKET_SIZE;
+    m_Data = new uint8_t[m_BufferSize];
     m_CanFree = true;
     m_Pos = sizeof(uint32_t) + sizeof(uint8_t);
     m_Id = 0;
 }
 Packet::Packet(uint8_t packetId){
-    m_Size = DEFAULT_PACKET_SIZE;
-    m_Data = new uint8_t[m_Size];
+    CORE_DEBUG("ALLOCATED PACKET DATA");
+    m_BufferSize = DEFAULT_PACKET_SIZE;
+    m_Data = new uint8_t[m_BufferSize];
     m_CanFree = true;
     m_Pos = sizeof(uint32_t) + sizeof(uint8_t);
     m_Id = packetId;
+}
+Packet::Packet(uint8_t* data, uint32_t size, bool canFree){
+    m_Data = data;
+    m_BufferSize = size;
+    m_CanFree = canFree;
 }
 Packet::~Packet(){
     Free();
 }
 Packet::Packet(Packet&& packet){
     m_Data = packet.m_Data;
-    m_Size = packet.m_Size;
+    m_BufferSize = packet.m_BufferSize;
     m_CanFree = packet.m_CanFree;
     m_Pos = packet.m_Pos;
     m_Id = packet.m_Id;
 
-    packet.Free();
+    packet.m_Data = nullptr;
+    packet.m_BufferSize = 0;
+    packet.m_CanFree = false;
+    packet.m_Id = 0;
 }
 Packet::Packet(const Packet& packet){
-    m_Size = packet.m_Size;
+    m_BufferSize = packet.m_BufferSize;
+    CORE_DEBUG("ALLOCATED PACKET DATA");
 
-    uint8_t* data = new uint8_t[m_Size];
-    memcpy(data, packet.m_Data, m_Size);
+    uint8_t* data = new uint8_t[m_BufferSize];
+    memcpy(data, packet.m_Data, m_BufferSize);
     m_Data = data;
 
     m_CanFree = true;
@@ -42,10 +53,11 @@ Packet::Packet(const Packet& packet){
 
 Packet& Packet::operator=(const Packet& packet){
     Free();
-    m_Size = packet.m_Size;
+    CORE_DEBUG("ALLOCATED PACKET DATA");
+    m_BufferSize = packet.m_BufferSize;
 
-    uint8_t* data = new uint8_t[m_Size];
-    memcpy(data, packet.m_Data, m_Size);
+    uint8_t* data = new uint8_t[m_BufferSize];
+    memcpy(data, packet.m_Data, m_BufferSize);
     m_Data = data;
 
     m_CanFree = true;
@@ -53,17 +65,32 @@ Packet& Packet::operator=(const Packet& packet){
     m_Id = packet.m_Id;
     return *this;
 }
+Packet& Packet::operator=(Packet&& packet){
+    m_BufferSize = packet.m_BufferSize;
+    m_Data = packet.m_Data;
+    m_CanFree = packet.m_CanFree;
+    m_Id = packet.m_Id;
+    m_Pos = packet.m_Pos;
+
+    packet.m_Data = nullptr;
+    packet.m_BufferSize = 0;
+    packet.m_CanFree = false;
+    packet.m_Pos = 0;
+    packet.m_Id = 0;
+    return *this;
+}
 void Packet::Free(){
     if(m_CanFree){
+    CORE_DEBUG("DELLLOCATED PACKET DATA");
         delete m_Data;
         m_CanFree = false;
-        m_Size = 0;
+        m_BufferSize = 0;
     }
 }
 void Packet::SetBuffer(uint8_t* data, uint32_t size, bool canDelete){
     Free();
     m_Data = data;
-    m_Size = size;
+    m_BufferSize = size;
     m_CanFree = canDelete;
 }
 void Packet::WriteHeaders(){
@@ -72,7 +99,6 @@ void Packet::WriteHeaders(){
     WriteUInt32(pos - (sizeof(uint32_t) + sizeof(uint8_t)));
     WriteUInt8(m_Id);
     m_Pos = pos;
-    CORE_DEBUG("PACKET IS {0} bytes", pos);
 }
 void Packet::PrepareRead(){
     m_Pos = 0;

@@ -16,6 +16,7 @@ public:
     void SetClientConnectedCallback(ClientConnectedCallback callback);
     void SetPacketReceivedCallback(PacketReceivedCallback callback);
 public:
+    const ClientConnectedCallback& GetClientConnectedCallback() const noexcept{return m_ClientConnectedCallback;}
     const PacketReceivedCallback& GetPacketReceivedCallback() const noexcept{return m_PacketReceivedCallback;}
     asio::io_context& GetIOContext() const noexcept{return (asio::io_context&)m_IOContext;}
     bool ShouldRun() const noexcept{return m_ShouldRun;}
