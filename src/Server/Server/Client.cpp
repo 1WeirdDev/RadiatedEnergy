@@ -42,12 +42,12 @@ void Client::FreeData(){
 }
 void Client::SendPacket(Packet& packet){
     packet.WriteHeaders();
-    m_PacketsToWrite.push_back(packet);
+    m_PacketsToWrite.emplace_back(packet);
     StartTCPAsyncWrite();
 }
 void Client::SendPacket(Packet&& packet){
     packet.WriteHeaders();
-    m_PacketsToWrite.push_back(std::move(packet));
+    m_PacketsToWrite.emplace_back(std::move(packet));
     StartTCPAsyncWrite();
 }
 void Client::StartTCPAsyncRead(){
@@ -62,8 +62,8 @@ void Client::StartTCPAsyncWrite(){
     m_IsWritingTCPPacket = true;
 
     auto self = shared_from_this();
-    m_TCPSocket.async_read_some(asio::buffer(m_TCPReadBuffer, CLIENT_MAX_READ_BUFFER_SIZE), [self](const std::error_code& ec, size_t bytesTransferred){
-        self->OnTCPAsyncRead(ec, bytesTransferred);
+    m_TCPSocket.async_write_some(asio::buffer(m_PacketsToWrite[0].GetData(), CLIENT_MAX_READ_BUFFER_SIZE), [self](const std::error_code& ec, size_t bytesTransferred){
+        self->OnTCPAsyncWrite(ec, bytesTransferred);
     });
 }
 void Client::OnTCPAsyncRead(const std::error_code& ec, size_t bytesTransferred){
