@@ -86,7 +86,6 @@ void Packet::WriteString(const char* data){
     while(true){
         int8_t byte = data[0];
         if(byte == 0)break;
-        CORE_DEBUG("WRITING {0}", byte);
         WriteInt8(byte);
         data++;
     }
