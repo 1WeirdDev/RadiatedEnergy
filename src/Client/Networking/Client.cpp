@@ -6,7 +6,8 @@ Client::Client() :
 m_TCPSocket(m_IOContext),
 m_UDPSocket(m_IOContext),
 m_TCPResolver(m_IOContext),
-m_UDPResolver(m_IOContext){}
+m_UDPResolver(m_IOContext),
+m_ReceivePacket(0){}
 
 void Client::Start(){
     m_ShouldRun = true;
@@ -71,6 +72,9 @@ void Client::Disconnect(){
     CORE_INFO("Disconnected from server");
 }
 
+void Client::SetPacketReceivedCallback(ClientPacketCallback callback){
+    m_PacketReceivedCallback = callback;
+}
 void Client::OnConnect(const std::error_code& ec){
     if(ec){
         Disconnect();
@@ -86,7 +90,11 @@ void Client::StartTCPAsyncRead(){
             return;
         }
 
+        //TODO: handle packets split
         CORE_INFO("Read {0} bytes", bytesTransferred);
+        self->m_ReceivePacket.PrepareRead();
+        self->m_ReceivePacket.SetBuffer((uint8_t*)self->m_TCPReadBuffer, bytesTransferred, false);
+        self->m_PacketReceivedCallback(self->m_ReceivePacket);
         self->StartTCPAsyncRead();
     });
 }

@@ -21,6 +21,13 @@ Packet::Packet(Packet&& packet){
 
     packet.Free();
 }
+Packet& Packet::operator=(const Packet& right){
+    m_Data = right.m_Data;
+    m_Size = right.m_Size;
+    m_CanFree = right.m_CanFree;
+    m_Pos = right.m_Pos;
+    m_Id = right.m_Id;
+}
 
 void Packet::Free(){
     if(m_CanFree){
@@ -29,7 +36,7 @@ void Packet::Free(){
         m_Size = 0;
     }
 }
-void Packet::SetData(uint8_t* data, uint32_t size, bool canDelete){
+void Packet::SetBuffer(uint8_t* data, uint32_t size, bool canDelete){
     Free();
     m_Data = data;
     m_Size = size;

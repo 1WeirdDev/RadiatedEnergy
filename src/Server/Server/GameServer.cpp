@@ -3,7 +3,8 @@
 #include "Core/Logger.h"
 
 GameServer::GameServer():
-m_TCPAcceptor(m_IOContext){}
+m_TCPAcceptor(m_IOContext),
+m_PacketReceivedCallback(0){}
 
 int GameServer::Start(uint16_t port){
     CORE_INFO("Starting server on port {0}", port);
@@ -55,6 +56,9 @@ void GameServer::Stop(){
     CORE_INFO("Successfully closed server");
 }
 
+void GameServer::SetPacketReceivedCallback(PacketReceivedCallback callback){
+    m_PacketReceivedCallback = callback;
+}
 void GameServer::StartAccept(){
     m_TCPAcceptor.async_accept([this](const std::error_code& ec, tcp::socket tcpSocket){
         if(ec){

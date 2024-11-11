@@ -1,8 +1,8 @@
 #Type Client | Server
 #Arch can be [x64]
 Platform = Windows
-Type = Client
-#Type = Server
+#Type = Client
+Type = Server
 Configuration = Release
 TargetName = RadiatedEnergy
 Arch = x64

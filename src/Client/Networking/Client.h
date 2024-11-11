@@ -2,7 +2,9 @@
 
 #include "Core.h"
 #include "Shared.h"
+#include "Packet.h"
 
+typedef std::function<void(Packet& packet)> ClientPacketCallback;
 class Client : public std::enable_shared_from_this<Client>{
 public:
     Client();
@@ -16,6 +18,7 @@ public:
     void Connect(std::string hostName, uint16_t port);
     void Disconnect();
 public:
+    void SetPacketReceivedCallback(ClientPacketCallback callback);
     bool IsAttemptingConnected() const noexcept{return m_IsAttemptingConnect;}
     bool IsConnected() const noexcept{return m_IsConnected;}
     bool ShouldRun() const noexcept{return m_ShouldRun;}
@@ -36,5 +39,8 @@ private:
     bool m_IsAttemptingConnect = false;
     bool m_IsConnected = false;
     bool m_ShouldRun = false;
+
+    Packet m_ReceivePacket;
+    ClientPacketCallback m_PacketReceivedCallback;
 
 };

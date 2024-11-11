@@ -93,10 +93,11 @@ Files += $(SrcDir)Input/Keyboard.cpp
 Files += $(SrcDir)Input/Mouse.cpp
 
 #Scenes
-ScenesDir = $(SrcDir)Scene/Scenes/
 Files += $(SrcDir)Scene/Scene.cpp
 Files += $(SrcDir)Scene/SceneManager.cpp
+ScenesDir = $(SrcDir)Scene/Scenes/
 Files += $(ScenesDir)MainMenuScene.cpp
+Files += $(ScenesDir)GameScene.cpp
 else
 #Server
 Files += $(SrcDir)Core/Logger.cpp

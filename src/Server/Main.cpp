@@ -8,6 +8,14 @@ int main(int argc, char** argv){
 
     GameServer server;
 
+    server.SetPacketReceivedCallback([](Packet& packet, Client& client){
+        CORE_DEBUG("CLient sent packet with {0} bytes", packet.ReadInt32());
+        Packet writePacket(1);
+        writePacket.PrepareWrite();
+        writePacket.WriteString("HELLO WORLD");
+        client.SendPacket(std::move(writePacket));
+    });
+
     server.Start(8888);
 
     while(server.ShouldRun()){

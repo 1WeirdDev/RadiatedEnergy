@@ -8,8 +8,10 @@ public:
     ~Packet();
     Packet(Packet&& packet);
 
+    Packet& operator=(const Packet& right);
+
     void Free();
-    void SetData(uint8_t* data, uint32_t size, bool canDelete);
+    void SetBuffer(uint8_t* data, uint32_t size, bool canDelete);
 
     /// @brief writes the packet size and id to the beginning of buffer
     void WriteHeaders();
@@ -40,8 +42,8 @@ public:
     bool CanDeleteData() const noexcept{return m_CanFree;}
 private:
     uint8_t* m_Data = nullptr;
-    uint32_t m_Size = 0;
     bool m_CanFree = false;
+    uint32_t m_Size = 0;
 
     /// @brief the position at which we read/write at
     uint32_t m_Pos = 0;
