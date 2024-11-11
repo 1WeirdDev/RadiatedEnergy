@@ -5,24 +5,41 @@
 Packet::Packet(){
     m_Size = DEFAULT_PACKET_SIZE;
     m_Data = new uint8_t[m_Size];
-    m_CanDeleteData = true;
-    m_Pos = 4;
+    m_CanFree = true;
+    m_Pos = sizeof(uint32_t);
 }
 Packet::~Packet(){
-    if(m_CanDeleteData)
-        delete m_Data;
+    Free();
 }
 Packet::Packet(Packet&& packet){
     m_Data = packet.m_Data;
     m_Size = packet.m_Size;
-    m_CanDeleteData = packet.m_CanDeleteData;
+    m_CanFree = packet.m_CanFree;
     m_Pos = packet.m_Pos;
 
-    packet.m_Data = nullptr;
-    packet.m_Size = 0;
-    packet.m_CanDeleteData = false;
+    packet.Free();
 }
 
+void Packet::Free(){
+    if(m_CanFree){
+        delete m_Data;
+        m_CanFree = false;
+        m_Size = 0;
+    }
+}
+void Packet::SetData(uint8_t* data, uint32_t size, bool canDelete){
+    Free();
+    m_Data = data;
+    m_Size = size;
+    m_CanFree = canDelete;
+}
+void Packet::WriteLength(){
+    uint32_t pos = m_Pos;
+    m_Pos = 0;
+    WriteUInt32(pos);
+    m_Pos = pos;
+    CORE_DEBUG("PACKET IS {0} bytes", pos);
+}
 void Packet::PrepareRead(){
     m_Pos = 0;
 }
@@ -51,7 +68,7 @@ void Packet::WriteUInt16(uint16_t data){
     m_Pos += sizeof(uint16_t);
 }
 void Packet::WriteInt8(int8_t data){
-    m_Data[m_Pos] = (data >> 8) & 0xFF;
+    m_Data[m_Pos] = data& 0xFF;
     m_Pos += sizeof(int8_t);
 }
 void Packet::WriteUInt8(uint8_t data){
@@ -62,7 +79,8 @@ void Packet::WriteUInt8(uint8_t data){
 void Packet::WriteString(const char* data){
     while(true){
         int8_t byte = data[0];
-        if(byte == 0)return;
+        if(byte == 0)break;
+        CORE_DEBUG("WRITING {0}", byte);
         WriteInt8(byte);
         data++;
     }
@@ -108,15 +126,14 @@ uint8_t Packet::ReadUInt8(){
 }
 
 std::string Packet::ReadString(){
-    const char* base = (const char*)m_Data[m_Pos];
+    const char* base = (const char*)m_Data + m_Pos;
     const char* str = base;
     while(str[0] != 0x00){
         str++;
     }
-
     size_t len = (str - base);
     std::string string(len, 0);
     memcpy((char*)string.c_str(), base, len);
-    return str;
+    return string;
 }
 #pragma endregion

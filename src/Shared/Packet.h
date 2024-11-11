@@ -8,6 +8,12 @@ public:
     ~Packet();
     Packet(Packet&& packet);
 
+    void Free();
+
+    void SetData(uint8_t* data, uint32_t size, bool canDelete);
+
+    /// @brief gets the offset and writes that to the beginning of the buffer
+    void WriteLength();
     /// @brief Sets the position to the buffer at index 0 to start reading
     void PrepareRead();
 public:
@@ -27,14 +33,15 @@ public:
     uint8_t ReadUInt8();
     std::string ReadString();
 public:
-    uint8_t*  GetData() const noexcept{return m_Data;}
-    size_t GetSize() const noexcept{return m_Size;}
-    bool CanDeleteData() const noexcept{return m_CanDeleteData;}
+    uint32_t GetBufferPos() const noexcept{return m_Pos;}
+    uint8_t* GetData() const noexcept{return m_Data;}
+    uint32_t GetSize() const noexcept{return m_Size;}
+    bool CanDeleteData() const noexcept{return m_CanFree;}
 private:
     uint8_t* m_Data = nullptr;
-    size_t m_Size = 0;
-    bool m_CanDeleteData = false;
+    uint32_t m_Size = 0;
+    bool m_CanFree = false;
 
-    //The position to read/write
-    size_t m_Pos = 0;
+    /// @brief the position at which we read/write at
+    uint32_t m_Pos = 0;
 };

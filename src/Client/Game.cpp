@@ -26,13 +26,14 @@ void Game::Init(){
     packet.WriteInt32(-1273421);
     packet.WriteUInt32(782314);
     packet.WriteString("HELLO SUSSY BALLS(CAPPED)");
-
+    packet.WriteLength();
+    
     packet.PrepareRead();
     packet.ReadInt32();
     int16_t f1 = packet.ReadInt16();
     int32_t f2 = packet.ReadInt32();
     uint32_t f3 = packet.ReadUInt32();
-    std::string f4 = packet.ReadString();
+    std::string f4 = std::move(packet.ReadString());
     CORE_DEBUG("READ {0} {1} {2} {3}", f1, f2, f3, f4);
 
     Window::SetBackgroundColor(0.5f, 0.5f, 0.5f);
