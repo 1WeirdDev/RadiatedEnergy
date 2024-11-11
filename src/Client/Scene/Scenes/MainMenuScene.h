@@ -4,6 +4,9 @@
 
 #include "Rendering/Gui/Gui.h"
 #include "Rendering/Gui/UIs/UITextLabel.h"
+#include "Rendering/Shaders/ChunkShader.h"
+#include "World/Chunk.h"
+#include "Math/Mat4x4.h"
 
 class MainMenuScene: public Scene{
 public:
@@ -18,4 +21,7 @@ public:
 private:
     Gui m_Gui;
     UITextLabel* m_Label;
+    ChunkShader m_Shader;
+    Chunk m_Chunk;
+    Matrix m_Matrix;
 };

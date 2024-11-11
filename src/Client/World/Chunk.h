@@ -14,11 +14,17 @@ public:
     Chunk();
     ~Chunk();
 
+    void Tick();
+    void Draw();
+
     void CreateBlockData();
     void CreateMeshData();
     void CreateMesh();
 private:
     uint8_t m_BlockData[s_ChunkSize];
-
 private:
+    std::vector<uint8_t> m_Vertices;
+    std::vector<uint16_t> m_Indices;
+    uint16_t m_VertexIndex = 0;
+    BasicMesh m_Mesh;
 };

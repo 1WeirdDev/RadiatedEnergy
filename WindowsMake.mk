@@ -46,6 +46,11 @@ Files += $(SrcDir)Networking/Client.cpp
 Files += $(SrcDir)Core/Logger.cpp
 Files += $(SrcDir)Core/Time.cpp
 
+#Game
+WorldSRC = $(SrcDir)World/
+Files += $(WorldSRC)Chunk.cpp
+Files += $(WorldSRC)World.cpp
+
 #Math
 Files += $(SharedDir)Math/Frustum.cpp
 Files += $(SharedDir)Math/MatrixUtils.cpp

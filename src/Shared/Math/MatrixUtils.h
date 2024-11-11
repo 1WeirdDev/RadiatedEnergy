@@ -41,7 +41,7 @@ public:
     template <typename TYPE>
     static void TranslateMat4x4(float* dst, const Vec3<TYPE>& vector) noexcept{
         Mat4x4 translationMatrix;
-        CreateTranslationMatrix(translationMatrix.GetData(), vector.x, vector.y, vector.z);
+        CreateTranslationMatrix(translationMatrix.GetData(), vector.m_X, vector.m_Y, vector.m_Z);
         MultiplyMat4x4(dst, dst, translationMatrix.GetData());
     }
 #pragma endregion
