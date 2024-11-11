@@ -21,23 +21,23 @@ void Game::Init(){
 
     Time::Init();
 
-    Packet packet;
+    Packet packet(15);
     packet.WriteInt16(8012);
     packet.WriteInt32(-1273421);
     packet.WriteUInt32(782314);
     packet.WriteString("HELLO SUSSY BALLS(CAPPED)");
-    packet.WriteLength();
+    packet.WriteHeaders();
     
     packet.PrepareRead();
-    packet.ReadInt32();
+    uint32_t packetSize = packet.ReadInt32();
+    uint8_t id = packet.ReadUInt8();
     int16_t f1 = packet.ReadInt16();
     int32_t f2 = packet.ReadInt32();
     uint32_t f3 = packet.ReadUInt32();
     std::string f4 = std::move(packet.ReadString());
-    CORE_DEBUG("READ {0} {1} {2} {3}", f1, f2, f3, f4);
 
     Window::SetBackgroundColor(0.5f, 0.5f, 0.5f);
-
+    
     SceneManager::MakeScene<MainMenuScene>(LoadSceneMode::Single);
     s_Client = std::make_shared<Client>();
     s_Client->Start();

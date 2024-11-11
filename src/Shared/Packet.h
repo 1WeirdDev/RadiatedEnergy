@@ -4,17 +4,18 @@
 
 class Packet{
 public:
-    Packet();
+    Packet(uint8_t packetId);
     ~Packet();
     Packet(Packet&& packet);
 
     void Free();
-
     void SetData(uint8_t* data, uint32_t size, bool canDelete);
 
-    /// @brief gets the offset and writes that to the beginning of the buffer
-    void WriteLength();
-    /// @brief Sets the position to the buffer at index 0 to start reading
+    /// @brief writes the packet size and id to the beginning of buffer
+    void WriteHeaders();
+    /// @brief Sets the position to the buffer at index 0 to start reading size and id
+    void PrepareWrite();
+    /// @brief Sets the buffer index to the 5th byte to prepare for appending data
     void PrepareRead();
 public:
     void WriteInt32(int32_t data);
@@ -44,4 +45,7 @@ private:
 
     /// @brief the position at which we read/write at
     uint32_t m_Pos = 0;
+
+    /// @brief and Id that specifies what kind of packet it is
+    uint8_t m_Id;
 };

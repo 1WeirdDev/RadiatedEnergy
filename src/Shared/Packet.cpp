@@ -2,11 +2,12 @@
 #include "Packet.h"
 #include "Core/Logger.h"
 
-Packet::Packet(){
+Packet::Packet(uint8_t packetId){
     m_Size = DEFAULT_PACKET_SIZE;
     m_Data = new uint8_t[m_Size];
     m_CanFree = true;
-    m_Pos = sizeof(uint32_t);
+    m_Pos = sizeof(uint32_t) + sizeof(uint8_t);
+    m_Id = packetId;
 }
 Packet::~Packet(){
     Free();
@@ -16,6 +17,7 @@ Packet::Packet(Packet&& packet){
     m_Size = packet.m_Size;
     m_CanFree = packet.m_CanFree;
     m_Pos = packet.m_Pos;
+    m_Id = packet.m_Id;
 
     packet.Free();
 }
@@ -33,15 +35,19 @@ void Packet::SetData(uint8_t* data, uint32_t size, bool canDelete){
     m_Size = size;
     m_CanFree = canDelete;
 }
-void Packet::WriteLength(){
+void Packet::WriteHeaders(){
     uint32_t pos = m_Pos;
     m_Pos = 0;
-    WriteUInt32(pos);
+    WriteUInt32(pos - (sizeof(uint32_t) + sizeof(uint8_t)));
+    WriteUInt8(m_Id);
     m_Pos = pos;
     CORE_DEBUG("PACKET IS {0} bytes", pos);
 }
 void Packet::PrepareRead(){
     m_Pos = 0;
+}
+void Packet::PrepareWrite(){
+    m_Pos = sizeof(uint32_t) + sizeof(uint8_t);
 }
 void Packet::WriteInt32(int32_t data){
     m_Data[m_Pos] = (data >> 24) & 0xFF;
