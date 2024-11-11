@@ -8,6 +8,7 @@
 #include "Scene/SceneManager.h"
 #include "Scene/Scenes/MainMenuScene.h"
 #include "Rendering/Gui/UIDisplayManager.h"
+#include "Packet.h"
 
 std::shared_ptr<Client> Game::s_Client;
 
@@ -19,6 +20,20 @@ void Game::Init(){
     Mouse::Init();
 
     Time::Init();
+
+    Packet packet;
+    packet.WriteInt16(8012);
+    packet.WriteInt32(-1273421);
+    packet.WriteUInt32(782314);
+    packet.WriteString("HELLO SUSSY BALLS(CAPPED)");
+
+    packet.PrepareRead();
+    packet.ReadInt32();
+    int16_t f1 = packet.ReadInt16();
+    int32_t f2 = packet.ReadInt32();
+    uint32_t f3 = packet.ReadUInt32();
+    std::string f4 = packet.ReadString();
+    CORE_DEBUG("READ {0} {1} {2} {3}", f1, f2, f3, f4);
 
     Window::SetBackgroundColor(0.5f, 0.5f, 0.5f);
 

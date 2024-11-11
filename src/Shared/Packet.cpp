@@ -6,6 +6,7 @@ Packet::Packet(){
     m_Size = DEFAULT_PACKET_SIZE;
     m_Data = new uint8_t[m_Size];
     m_CanDeleteData = true;
+    m_Pos = 4;
 }
 Packet::~Packet(){
     if(m_CanDeleteData)
@@ -15,11 +16,16 @@ Packet::Packet(Packet&& packet){
     m_Data = packet.m_Data;
     m_Size = packet.m_Size;
     m_CanDeleteData = packet.m_CanDeleteData;
+    m_Pos = packet.m_Pos;
+
     packet.m_Data = nullptr;
     packet.m_Size = 0;
     packet.m_CanDeleteData = false;
 }
 
+void Packet::PrepareRead(){
+    m_Pos = 0;
+}
 void Packet::WriteInt32(int32_t data){
     m_Data[m_Pos] = (data >> 24) & 0xFF;
     m_Data[m_Pos + 1] = (data >> 16) & 0xFF;
@@ -49,8 +55,18 @@ void Packet::WriteInt8(int8_t data){
     m_Pos += sizeof(int8_t);
 }
 void Packet::WriteUInt8(uint8_t data){
-    m_Data[m_Pos] = data >> 8 & 0xFF;
+    m_Data[m_Pos] = data & 0xFF;
     m_Pos += sizeof(uint8_t);
+}
+
+void Packet::WriteString(const char* data){
+    while(true){
+        int8_t byte = data[0];
+        if(byte == 0)return;
+        WriteInt8(byte);
+        data++;
+    }
+    WriteInt8(0);
 }
 #pragma region Reading
 int32_t Packet::ReadInt32(){
@@ -89,5 +105,18 @@ uint8_t Packet::ReadUInt8(){
     uint8_t data = static_cast<uint8_t>(m_Data[m_Pos]);
     m_Pos += sizeof(uint8_t);
     return data;
+}
+
+std::string Packet::ReadString(){
+    const char* base = (const char*)m_Data[m_Pos];
+    const char* str = base;
+    while(str[0] != 0x00){
+        str++;
+    }
+
+    size_t len = (str - base);
+    std::string string(len, 0);
+    memcpy((char*)string.c_str(), base, len);
+    return str;
 }
 #pragma endregion

@@ -28,7 +28,9 @@ LFLAGS += /LTCG /INCREMENTAL:NO /NODEFAULTLIB /OPT:REF /OPT:ICF /Gy /SUBSYSTEM:W
 endif
 endif
 
+#Shared
 Files+= $(SrcDir)Main.cpp
+Files+=$(SharedDir)Packet.cpp
 
 ifeq ($(Type), Client)
 #Client
