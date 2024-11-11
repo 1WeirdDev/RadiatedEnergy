@@ -23,5 +23,6 @@ private:
     UITextLabel* m_Label;
     ChunkShader m_Shader;
     Chunk m_Chunk;
-    Matrix m_Matrix;
+    Mat4x4 m_Matrix;
+    Vec3<float> m_Position;
 };

@@ -2,6 +2,7 @@
 #include "MainMenuScene.h"
 #include "Core/Logger.h"
 #include "Core/Time.h"
+#include "Input/Keyboard.h"
 #include "Rendering/Gui/UIs/UIFrame.h"
 #include "Rendering/Gui/UIDisplayManager.h"
 #include "Rendering/Window.h"
@@ -33,12 +34,21 @@ void MainMenuScene::CleanUp(){
     m_Gui.CleanUp();
 }
 void MainMenuScene::Update(){
+    if(Keyboard::IsKeyDown(GLFW_KEY_W)){
+        m_Position.m_X+=sin(0) * Time::GetDeltaTime();
+        m_Position.m_Z-=cos(0) * Time::GetDeltaTime();
+    }
+    if(Keyboard::IsKeyDown(GLFW_KEY_S)){
+        m_Position.m_X-=sin(0) * Time::GetDeltaTime();
+        m_Position.m_Z+=cos(0) * Time::GetDeltaTime();
+    }
     m_Label->SetText(std::to_string((int)(1.0 / Time::GetDeltaTime())).c_str());
 }
 void MainMenuScene::Draw(){
     m_Gui.Draw();
     m_Shader.Start();
-    
+    m_Matrix.SetIdentity();
+    MatrixUtils::TranslateMat4x4(m_Matrix.GetData(), m_Position);
     m_Shader.LoadViewMatrix(m_Matrix.GetData());
     m_Chunk.Draw();
 }
