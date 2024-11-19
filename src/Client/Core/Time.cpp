@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Time.h"
+#include "Logger.h"
 
 std::chrono::high_resolution_clock::time_point Time::s_FrameStart;
 std::chrono::high_resolution_clock::time_point Time::s_LastFrameStart;
@@ -13,6 +14,6 @@ void Time::Init(){
 void Time::Shutdown(){}
 void Time::Update(){
     s_FrameStart = std::chrono::steady_clock::now();
-    s_DeltaTime = (float)((s_FrameStart - s_LastFrameStart).count() / 1000000000.0);
+    s_DeltaTime = (float)(s_FrameStart - s_LastFrameStart).count() / 1000000000.0;
     s_LastFrameStart = s_FrameStart;
 }

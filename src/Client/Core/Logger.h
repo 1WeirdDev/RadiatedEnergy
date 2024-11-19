@@ -11,9 +11,9 @@ public:
     inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
 private:
     static std::shared_ptr<spdlog::logger> s_CoreLogger;
-    #endif
+#endif
 };
-#if !defined(DIST)
+#ifndef DIST
     #define CORE_ERROR(...)	::Logger::GetCoreLogger()->error(__VA_ARGS__)
     #define CORE_WARN(...)	::Logger::GetCoreLogger()->warn(__VA_ARGS__)
     #define CORE_INFO(...)	::Logger::GetCoreLogger()->info(__VA_ARGS__)

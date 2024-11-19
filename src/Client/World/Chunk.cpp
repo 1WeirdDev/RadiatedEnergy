@@ -17,21 +17,21 @@ void Chunk::CreateMeshData(){
 void Chunk::CreateMesh(){
     for(uint8_t z = 0; z < s_ChunkWidth; z++){
         for(uint8_t x = 0; x < s_ChunkWidth; x++){
+            m_Vertices.emplace_back(x);
             m_Vertices.emplace_back(0);
-            m_Vertices.emplace_back(0);
-            m_Vertices.emplace_back(0);
+            m_Vertices.emplace_back(z);
             
-            m_Vertices.emplace_back(0);
+            m_Vertices.emplace_back(x);
             m_Vertices.emplace_back(1);
-            m_Vertices.emplace_back(0);
+            m_Vertices.emplace_back(z);
             
-            m_Vertices.emplace_back(1);
+            m_Vertices.emplace_back(x + 1);
             m_Vertices.emplace_back(0);
-            m_Vertices.emplace_back(0);
+            m_Vertices.emplace_back(z);
             
+            m_Vertices.emplace_back(x + 1);
             m_Vertices.emplace_back(1);
-            m_Vertices.emplace_back(1);
-            m_Vertices.emplace_back(0);
+            m_Vertices.emplace_back(z);
 
             m_Indices.emplace_back(m_VertexIndex + 0);
             m_Indices.emplace_back(m_VertexIndex + 1);

@@ -116,7 +116,7 @@ void Window::Create(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 #ifdef DIST
-    glfwSwapInterval(1);
+    //glfwSwapInterval(1);
 #else
     glfwSwapInterval(0);
 #endif

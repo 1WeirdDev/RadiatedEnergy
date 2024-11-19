@@ -44,8 +44,8 @@ void Mouse::Update(){
         if(s_Buttons[button])s_Buttons[button] = 1;
     }
     s_ButtonsToSet.resize(0);
-    s_MousePosX = 0;
-    s_MousePosY = 0;
+    s_DeltaX = 0;
+    s_DeltaY = 0;
 }
 void Mouse::OnLostFocus(){
     s_Buttons.fill(0);

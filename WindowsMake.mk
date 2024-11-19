@@ -20,11 +20,12 @@ Defines += /DNDEBUG
 
 ifeq ($(Configuration), Release)
 Defines += /DRELEASE
-CFlags += /Ot /Oi
-LFLAGS += /LTCG /INCREMENTAL:NO /NODEFAULTLIB /Gy
+CFlags += /Ot /Oi /Ox /GL  /Gy Gw
+LFLAGS += /LTCG /INCREMENTAL:NO /NODEFAULTLIB /MACHINE:x64
 else
 Defines += /DDIST
-LFLAGS += /LTCG /INCREMENTAL:NO /NODEFAULTLIB /OPT:REF /OPT:ICF /Gy /SUBSYSTEM:Windows
+CFlags += /Ot /Oi /Ox /GL /Gy /Gw
+LFLAGS += /LTCG /INCREMENTAL:NO /NODEFAULTLIB /OPT:REF /OPT:ICF /SUBSYSTEM:Windows /MACHINE:x64
 endif
 endif
 

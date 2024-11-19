@@ -47,6 +47,7 @@ void Keyboard::Shutdown(){
 }
 void Keyboard::Update(){
     for(size_t i = 0; i < s_KeysToSet.size();i++){
+        CORE_DEBUG("UPDATING KEY ");
         uint16_t key = s_KeysToSet[i];
         if(s_Keys[key] == (uint8_t)KeyState::Pressed)s_Keys[key] = (uint8_t)KeyState::Repeated;
     }
