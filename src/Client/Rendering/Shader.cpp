@@ -24,7 +24,7 @@ void Shader::CleanUp(){
 void Shader::Start() const noexcept{
     glUseProgram(m_ProgramId);
 }
-void Shader::Stop(){
+void Shader::Stop() noexcept{
     glUseProgram(0);
 }
 GLint Shader::LoadShader(const char* shaderData, int shaderType){

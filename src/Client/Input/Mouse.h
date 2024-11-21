@@ -13,6 +13,8 @@ public:
 public:
     static double GetMouseX() noexcept{return s_MousePosX;}
     static double GetMouseY() noexcept{return s_MousePosY;}
+    static double GetDeltaX() noexcept{return s_DeltaX;}
+    static double GetDeltaY() noexcept{return s_DeltaY;}
     static double GetNormalizedMouseX() noexcept{return s_NormalizedMousePosX;}
     static double GetNormalizedMouseY() noexcept{return s_NormalizedMousePosY;}
 private:

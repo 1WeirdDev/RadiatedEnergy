@@ -11,7 +11,8 @@ public:
     virtual void CleanUp();
     virtual void Update();
     virtual void Draw();
-
+    
+    virtual void OnWindowResizeEvent(int width, int height){}
     virtual void HandleKeyEvent(bool& handled, KeyState state, uint8_t modifiers, uint16_t key);
 public:
 

@@ -78,5 +78,7 @@ void Game::OnWindowFocusCallback(bool focused){
     Mouse::OnLostFocus();
 }
 
-void Game::OnWindowResizeEvent(int width, int height){}
+void Game::OnWindowResizeEvent(int width, int height){
+    SceneManager::OnWindowResizeEvent(width, height);
+}
 void Game::OnWindowPosCallback(int xPos, int yPos){}

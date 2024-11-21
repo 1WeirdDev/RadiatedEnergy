@@ -61,7 +61,9 @@ public:
     TYPE GetDotProduct(const Vec3<TYPE> rhs) const noexcept{return static_cast<TYPE>(m_X * rhs.m_X + m_Y * rhs.m_Y + m_Z * rhs.m_Z);}
 public:
     //Operators
-
+    Vec3<TYPE> operator-() const noexcept{
+        return Vec3<TYPE>(-m_X, -m_Y, -m_Z);
+    }
     Vec3<TYPE> operator+=(const Vec3<TYPE> rhs) noexcept{
         m_X += rhs.m_X;
         m_Y += rhs.m_Y;

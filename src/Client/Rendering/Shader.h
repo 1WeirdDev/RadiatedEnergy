@@ -10,7 +10,7 @@ public:
 
     void CleanUp();
     void Start() const noexcept;
-    static void Stop();
+    static void Stop() noexcept;
 
     void CreateWithSource(const char* vertexShaderData, const char* fragmentShaderData);
 

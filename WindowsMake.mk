@@ -20,7 +20,7 @@ Defines += /DNDEBUG
 
 ifeq ($(Configuration), Release)
 Defines += /DRELEASE
-CFlags += /Ot /Oi /Ox /GL  /Gy Gw
+CFlags += /Ot /Oi /Ox /GL  /Gy /Gw
 LFLAGS += /LTCG /INCREMENTAL:NO /NODEFAULTLIB /MACHINE:x64
 else
 Defines += /DDIST
@@ -50,7 +50,11 @@ Files += $(SrcDir)Core/Time.cpp
 #Game
 WorldSRC = $(SrcDir)World/
 Files += $(WorldSRC)Chunk.cpp
+Files += $(WorldSRC)Marcher.cpp
 Files += $(WorldSRC)World.cpp
+
+#Entities
+Files += $(SrcDir)Entity/Player/Player.cpp
 
 #Math
 Files += $(SharedDir)Math/Frustum.cpp
@@ -64,6 +68,7 @@ Files += $(SrcDir)Rendering/Gui/Font.cpp
 Files += $(SrcDir)Rendering/Gui/Gui.cpp
 Files += $(SrcDir)Rendering/Gui/UIDisplayManager.cpp
 Files += $(SrcDir)Rendering/Gui/UI.cpp
+
 #GUIS
 UisDir = $(SrcDir)Rendering/Gui/UIS/
 Files += $(UisDir)UIButton.cpp
@@ -76,6 +81,7 @@ Files += $(MeshSrc)BasicMesh.cpp
 Files += $(MeshSrc)ChunkMesh.cpp
 Files += $(MeshSrc)PointMesh.cpp
 Files += $(MeshSrc)TexturedMesh.cpp
+
 #Shaders
 ShadersSrc = $(SrcDir)Rendering/Shaders/
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Vec2.h"
 #include "Vec3.h"
 #include "Mat4x4.h"
 
@@ -22,7 +23,11 @@ public:
 
     //Translation
     static void CreateTranslationMatrix(float* dst, float x, float y, float z) noexcept;
-
+    template<typename TYPE>
+    static void CreateTranslationMatrixXZ(float* dst, const Vec2<TYPE> vec2) noexcept{
+        SetMat4Data(dst, 0, 3, static_cast<float>(vec2.m_X));
+        SetMat4Data(dst, 2, 3, static_cast<float>(vec2.m_Y));
+    }
     //Rotation
     static void RotateMat4x4(float* dst, float angle, Vec3<float> axis) noexcept;
     static void CreateRotationMatrixAxisX(float* dst, float angleInRadians)noexcept;

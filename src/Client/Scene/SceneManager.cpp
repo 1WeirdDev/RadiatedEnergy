@@ -32,6 +32,11 @@ bool SceneManager::RemoveScene(Scene* scene){
     return false;
 }
 
+void SceneManager::OnWindowResizeEvent(int width, int height){
+    for(size_t i = 0; i < s_Scenes.size(); i++){
+        s_Scenes[i]->OnWindowResizeEvent(width, height);
+    }
+}
 void SceneManager::HandleKeyEvent(KeyState state, uint8_t modifiers, uint16_t key){
     bool handled = false;
     for(size_t i = 0; i < s_Scenes.size(); i++){

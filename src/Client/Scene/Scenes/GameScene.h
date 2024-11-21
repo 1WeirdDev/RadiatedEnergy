@@ -1,9 +1,9 @@
 #pragma once
 
 #include "../Scene.h"
-
+#include "Entity/Player/Player.h"
 #include "Rendering/Shaders/ChunkShader.h"
-#include "World/Chunk.h"
+#include "World/World.h"
 #include "Math/Mat4x4.h"
 
 class GameScene : public Scene{
@@ -15,10 +15,13 @@ public:
     void Update() override;
     void Draw() override;
 
+    void OnWindowResizeEvent(int width, int height) override;
     void HandleKeyEvent(bool& handled, KeyState state, uint8_t modifiers, uint16_t key) override;
 private:
+    Player m_Player;
     ChunkShader m_Shader;
-    Chunk m_Chunk;
+    World m_World;
     Mat4x4 m_Matrix;
     Vec3<float> m_Position;
+    bool m_IsPolygonMode=false;
 };

@@ -39,8 +39,8 @@ public:
     /// @param scene the Scene* to search for
     /// @return returns true if success
     static bool RemoveScene(Scene* scene);
-    
 
+    static void OnWindowResizeEvent(int width, int height);
     static void HandleKeyEvent(KeyState state, uint8_t modifiers, uint16_t key);
 public:
     static std::vector<Scene*>& GetScenes() noexcept{return (std::vector<Scene*>&)s_Scenes;}

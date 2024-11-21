@@ -49,6 +49,16 @@ public:
 public:
     //Operators
 
+    Vec2<TYPE> operator-()const noexcept{
+        return Vec2<TYPE>(-m_X, -m_Y);
+    }
+
+    bool operator<(const Vec2<TYPE>& other) const noexcept{
+        if(m_X == other.m_X)
+            return m_Y < other.m_Y;
+        return m_X < other.m_X;
+    }
+
     Vec2<TYPE> operator+=(const Vec2<TYPE> rhs) noexcept{
         m_X += rhs.m_X;
         m_Y += rhs.m_Y;

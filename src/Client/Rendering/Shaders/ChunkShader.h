@@ -13,6 +13,10 @@ public:
     void LoadProjectionMatrix(float* data) const noexcept;
     void LoadViewMatrix(float* data) const noexcept;
     void LoadTransformationMatrix(float* data) const noexcept;
+
+    GLint GetProjectionMatrixLocation() const noexcept{return m_ProjMatrixLocation;}
+    GLint GetViewMatrixLocation() const noexcept{return m_ViewMatrixLocation;}
+    GLint GetTransformationMatrixLocation() const noexcept{return m_TransformationMatrixLocation;}
 private:
     GLint m_ProjMatrixLocation = -1;
     GLint m_ViewMatrixLocation = -1;
