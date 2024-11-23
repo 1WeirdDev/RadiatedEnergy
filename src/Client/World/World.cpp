@@ -42,7 +42,6 @@ void World::Render(){
         const Vec2<int16_t>& position = myPair.first;
         Chunk* chunk = myPair.second;
         MatrixUtils::CreateTranslationMatrix(m_Matrix.GetData(), position.m_X* Chunk::s_ChunkWidth, 0, position.m_Y * Chunk::s_ChunkWidth);
-        //MatrixUtils::CreateTranslationMatrixXZ<int32_t>(m_Matrix.GetData(), chunk->GetGlobalPosition());
         m_ChunkShader.LoadTransformationMatrix(m_Matrix.GetData());
         chunk->Draw();
     }
@@ -67,7 +66,8 @@ Chunk* World::GetChunk(const Vec2<int16_t>& position){
 }
 Chunk* World::CreateChunk(const Vec2<int16_t>& position){
     Chunk* chunk = new Chunk(position);
-    m_Chunks[position] = chunk;
+    //m_Chunks[position] = chunk;
+    m_Chunks.emplace(position, chunk);
     chunk->CreateBlockData();
     chunk->CreateMeshData();
     chunk->CreateMesh();
@@ -76,13 +76,11 @@ Chunk* World::CreateChunk(const Vec2<int16_t>& position){
 
 void World::LoadViewMatrix(const Mat4x4& viewMatrix) const noexcept{
     m_ChunkShader.LoadViewMatrix(viewMatrix.GetData());
-#ifndef DIST
-    m_PointShader.Start();
-    m_PointShader.LoadViewMatrix(viewMatrix.GetData());
-    m_ChunkShader.Start();
-#endif
 }
 
+void World::LoadPointViewMatrix(const Mat4x4& viewMatrix) const noexcept{
+    m_PointShader.LoadViewMatrix(viewMatrix.GetData());
+}
 void World::OnWindowResizeEvent(int width, int height){
     m_ChunkShader.Start();
     MatrixUtils::CreatePerspectiveProjection(m_Matrix.GetData(), MatrixUtils::ToRadians(90.0f), (float)width / (float)height, 0.01f, 1000.0f);

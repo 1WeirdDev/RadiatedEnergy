@@ -58,66 +58,26 @@ void GameScene::Draw(){
     glPolygonMode(GL_FRONT_AND_BACK, m_IsPolygonMode ? GL_LINE : GL_FILL);
     if(m_IsPolygonMode){
         glDisable(GL_CULL_FACE);
+
+        chunkShader.Start();
+        m_World.LoadViewMatrix(m_Player.GetViewMatrix());
+        m_World.Render();
+
+        glEnable(GL_CULL_FACE);
         glLineWidth(2.0f);
         pointShader.Start();
+        m_World.LoadPointViewMatrix(m_Player.GetViewMatrix());
         m_World.RenderPoints();
-    }
-    else{
+    }else{
         chunkShader.Start();
         m_World.LoadViewMatrix(m_Player.GetViewMatrix());
         m_World.Render();
     }
     glEnable(GL_CULL_FACE);
-    /*
-    const PointShader& pointShader = m_Cave->GetPointShader();
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    bool polygonMode = m_Cave->IsPolygonMode();
-    if(polygonMode){
-        glDisable(GL_CULL_FACE);
-        pointShader.Start();
-
-        for(uint8_t i = 0; i < m_Chunks.size(); i++){
-            pointShader.LoadTransformationMatrix(m_Chunks[i].GetPointTransformationMatrix());
-            m_Chunks[i].DrawPoints();
-        }
-    }
-    else{
-        glEnable(GL_CULL_FACE);
-    }
-    glPolygonMode(GL_FRONT_AND_BACK, polygonMode ? GL_LINE : GL_FILL);
-    if(polygonMode){
-        glLineWidth(2.0f);
-        const ChunkDebugShader& chunkShader = m_Cave->GetDebugShader();
-        chunkShader.Start();
-        
-        for(uint8_t i = 0; i < m_Chunks.size(); i++){
-            chunkShader.LoadTransformationMatrix(m_Chunks[i].GetTransformationMatrix());
-            m_Chunks[i].Draw();
-        }
-    }else{
-        const ChunkShader& chunkShader = m_Cave->GetChunkShader();
-        chunkShader.Start();
-        
-        for(uint8_t i = 0; i < m_Chunks.size(); i++){
-            chunkShader.LoadTransformationMatrix(m_Chunks[i].GetTransformationMatrix());
-            m_Chunks[i].Draw();
-        }
-    }*/
-   
 #else
-    /*
-    const ChunkShader& chunkShader = m_Cave->GetChunkShader();
     chunkShader.Start();
-    
-    for(uint8_t i = 0; i < m_Chunks.size(); i++){
-        chunkShader.LoadTransformationMatrix(m_Chunks[i].GetTransformationMatrix());
-        m_Chunks[i].Draw();
-    }*/
-   m_Chunk.Draw();
-#endif
-
-#ifndef DIST
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    m_World.LoadViewMatrix(m_Player.GetViewMatrix());
+    m_World.Render();
 #endif
 }
 
@@ -125,7 +85,6 @@ void GameScene::OnWindowResizeEvent(int width, int height){
     m_World.OnWindowResizeEvent(width, height);
 }
 void GameScene::HandleKeyEvent(bool& handled, KeyState state, uint8_t modifiers, uint16_t key){
-
 #ifndef DIST
     if(key == GLFW_KEY_R && state == KeyState::Pressed){
         m_IsPolygonMode = !m_IsPolygonMode;

@@ -118,8 +118,8 @@ void Window::Create(){
 #ifdef DIST
     //glfwSwapInterval(1);
 #else
-    glfwSwapInterval(0);
 #endif
+    glfwSwapInterval(0);
 
     s_ShouldUpdate = true;
 }

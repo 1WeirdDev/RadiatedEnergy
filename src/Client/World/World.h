@@ -22,6 +22,7 @@ public:
     void OnWindowResizeEvent(int width, int height);
 
     void LoadViewMatrix(const Mat4x4& viewMatrix) const noexcept;
+    void LoadPointViewMatrix(const Mat4x4& viewMatrix) const noexcept;
 
     Chunk* GetChunk(const Vec2<int16_t>& position);
     /// @brief force creates a chunk at that position and replaces old if there is one without freeing
