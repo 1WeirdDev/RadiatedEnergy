@@ -34,5 +34,5 @@ private:
     ChunkShader m_ChunkShader;
     PointShader m_PointShader;
     Mat4x4 m_Matrix;
-    std::map<Vec2<int16_t>, Chunk*> m_Chunks;
+    std::unordered_map<Vec2<int16_t>, Chunk*> m_Chunks;
 };

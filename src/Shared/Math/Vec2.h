@@ -48,7 +48,6 @@ public:
     TYPE GetDotProduct(const Vec2<TYPE> rhs) const noexcept{return static_cast<TYPE>(m_X * rhs.m_X + m_Y * rhs.m_Y);}
 public:
     //Operators
-
     Vec2<TYPE> operator-()const noexcept{
         return Vec2<TYPE>(-m_X, -m_Y);
     }
@@ -111,3 +110,11 @@ public:
         return rhs.m_X != m_X || rhs.m_Y != m_Y;
     }
 };
+namespace std {
+    template <typename T> 
+    struct hash<Vec2<T>>{
+        size_t operator()(const Vec2<T>& vec2) const{
+            return (static_cast<unsigned short>(vec2.m_X) << 16u) | static_cast<unsigned short>(vec2.m_Y);
+        }
+    };
+}

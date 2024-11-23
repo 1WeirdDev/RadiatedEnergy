@@ -125,7 +125,10 @@ void GameScene::OnWindowResizeEvent(int width, int height){
     m_World.OnWindowResizeEvent(width, height);
 }
 void GameScene::HandleKeyEvent(bool& handled, KeyState state, uint8_t modifiers, uint16_t key){
-    if(key == GLFW_KEY_R){
+
+#ifndef DIST
+    if(key == GLFW_KEY_R && state == KeyState::Pressed){
         m_IsPolygonMode = !m_IsPolygonMode;
     }
+#endif
 }
