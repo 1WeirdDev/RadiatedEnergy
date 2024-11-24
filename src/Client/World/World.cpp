@@ -64,7 +64,6 @@ void World::RenderPoints() noexcept{
         const Vec2<int16_t>& position = myPair.first;
         Chunk* chunk = myPair.second;
         MatrixUtils::CreateTranslationMatrixXZ(m_Matrix.GetData(), position.m_X* Chunk::s_ChunkWidth, position.m_Y * Chunk::s_ChunkWidth);
-        //MatrixUtils::CreateTranslationMatrixXZ<int32_t>(m_Matrix.GetData(), chunk->GetGlobalPosition());
         m_PointShader.LoadTransformationMatrix(m_Matrix.GetData());
         chunk->DrawPoints();
     }
@@ -90,7 +89,9 @@ void World::LoadViewMatrix(const Mat4x4& viewMatrix) const noexcept{
 }
 
 void World::LoadPointViewMatrix(const Mat4x4& viewMatrix) const noexcept{
+#ifndef DIST
     m_PointShader.LoadViewMatrix(viewMatrix.GetData());
+#endif
 }
 void World::OnWindowResizeEvent(int width, int height){
     m_ChunkShader.Start();

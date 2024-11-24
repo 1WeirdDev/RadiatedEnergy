@@ -32,7 +32,9 @@ public:
     Chunk* CreateChunk(const Vec2<int16_t>& position);
 public:
     const ChunkShader& GetChunkShader() const noexcept{return m_ChunkShader;}
+#ifndef DIST
     const PointShader& GetPointShader() const noexcept{return m_PointShader;}
+#endif
 private:
     ChunkShader m_ChunkShader;
     Texture m_Texture;

@@ -3,7 +3,7 @@
 Platform = Windows
 Type = Client
 #Type = Server
-Configuration = Release
+Configuration = Dist
 TargetName = RadiatedEnergy
 Arch = x64
 

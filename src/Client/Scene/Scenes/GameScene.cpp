@@ -64,10 +64,10 @@ void GameScene::Update(){
 void GameScene::Draw(){
     m_Gui.Draw();
     const ChunkShader& chunkShader = m_World.GetChunkShader();
-    
+    chunkShader.Start();
 #ifndef DIST
     const PointShader& pointShader = m_World.GetPointShader();
-    chunkShader.Start();
+
     
     glPolygonMode(GL_FRONT_AND_BACK, m_IsPolygonMode ? GL_LINE : GL_FILL);
     if(m_IsPolygonMode){
