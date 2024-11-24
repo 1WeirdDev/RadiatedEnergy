@@ -101,8 +101,8 @@ void Chunk::AddFaces(uint8_t faces){
     m_Indices.reserve(m_Indices.size() + faces * 3);
     for(uint8_t i = 0; i < faces; i++){
         m_Indices.emplace_back(m_VertexIndex);
-        m_Indices.emplace_back(m_VertexIndex + 1);
         m_Indices.emplace_back(m_VertexIndex + 2);
+        m_Indices.emplace_back(m_VertexIndex + 1);
         m_VertexIndex+=3;
     }
 }

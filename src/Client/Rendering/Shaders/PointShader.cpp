@@ -42,7 +42,7 @@ void PointShader::LoadTransformationMatrix(float* data) const noexcept{
     LoadMat4x4(m_TransformationMatrixLocation, data);
 }
 void PointShader::LoadDivisor(float value) const noexcept{
-    LoadFloat(m_ScaleLocation, (0.5f / value));
+    LoadFloat(m_ScaleLocation, (1.0f / value));
 }
 void PointShader::LoadPosition(float x, float y) const noexcept{
     LoadVector2(m_PositionLocation, x, y);

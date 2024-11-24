@@ -16,8 +16,9 @@ public:
     void CleanUp();
 
     void Update();
-    void Render();
-    void RenderPoints();
+    void BindTextures();
+    void Render() noexcept;
+    void RenderPoints() noexcept;
 
     void OnWindowResizeEvent(int width, int height);
 

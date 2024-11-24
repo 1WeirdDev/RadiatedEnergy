@@ -35,23 +35,23 @@ void World::CleanUp(){
 }
 void World::Update(){
 }
-void World::Render(){
+void World::Render() noexcept{
     m_Matrix.SetIdentity();
     MatrixUtils::CreateScalingMatrix(m_Matrix.GetData(), 0.5f, 0.5f, 0.5f);
     for (const auto &myPair : m_Chunks) {
         if(myPair.second == nullptr)continue;
-
+        
         //TODO: maybe see if creating a global positon on the chunk then accessing that would be faster than mulitplying
         const Vec2<int16_t>& position = myPair.first;
         Chunk* chunk = myPair.second;
-        MatrixUtils::CreateTranslationMatrix(m_Matrix.GetData(), 0.5f * (position.m_X* Chunk::s_ChunkWidth), 0, 0.5f * (position.m_Y * Chunk::s_ChunkWidth));
+        MatrixUtils::CreateTranslationMatrix(m_Matrix.GetData(), (position.m_X* Chunk::s_ChunkWidth), 0, (position.m_Y * Chunk::s_ChunkWidth));
 
         m_ChunkShader.LoadTransformationMatrix(m_Matrix.GetData());
         chunk->Draw();
     }
 }
-void World::RenderPoints(){
-    
+void World::RenderPoints() noexcept{
+    m_Matrix.SetIdentity();
     for (const auto &myPair : m_Chunks) {
         if(myPair.second == nullptr)continue;
 

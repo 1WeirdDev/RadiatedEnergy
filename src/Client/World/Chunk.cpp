@@ -61,7 +61,7 @@ void Chunk::CreateMeshData(){
     for(uint8_t y = 0; y < s_ChunkHeight; y++){
         for(uint8_t x = 0; x < s_ChunkWidth; x++){
             for(uint8_t z = 0; z < s_ChunkWidth; z++){
-                m_PointVertices.reserve(m_PointVertices.size() + 16);
+                m_PointVertices.reserve(m_PointVertices.size() + 24);
                 m_PointIndices.reserve(m_PointIndices.size() + 6);
 
                 m_PointVertices.emplace_back(x * s_PointDivisor);
@@ -83,14 +83,40 @@ void Chunk::CreateMeshData(){
                 m_PointVertices.emplace_back(y* s_PointDivisor+ 1);
                 m_PointVertices.emplace_back(z* s_PointDivisor);
                 m_PointVertices.emplace_back(0);
+                
+                m_PointVertices.emplace_back(x * s_PointDivisor);
+                m_PointVertices.emplace_back(y * s_PointDivisor);
+                m_PointVertices.emplace_back(z * s_PointDivisor + 1);
+                m_PointVertices.emplace_back(0);
+
+                m_PointVertices.emplace_back(x * s_PointDivisor);
+                m_PointVertices.emplace_back(y * s_PointDivisor + 1);
+                m_PointVertices.emplace_back(z * s_PointDivisor + 1);
+                m_PointVertices.emplace_back(0);
+
+                m_PointVertices.emplace_back(x * s_PointDivisor + 1);
+                m_PointVertices.emplace_back(y * s_PointDivisor);
+                m_PointVertices.emplace_back(z * s_PointDivisor + 1);
+                m_PointVertices.emplace_back(0);
+
+                m_PointVertices.emplace_back(x* s_PointDivisor+ 1);
+                m_PointVertices.emplace_back(y* s_PointDivisor+ 1);
+                m_PointVertices.emplace_back(z* s_PointDivisor + 1);
+                m_PointVertices.emplace_back(0);
 
                 m_PointIndices.push_back(m_PointVertexIndex);
-                m_PointIndices.push_back(m_PointVertexIndex + 1);
-                m_PointIndices.push_back(m_PointVertexIndex + 2);
                 m_PointIndices.push_back(m_PointVertexIndex + 2);
                 m_PointIndices.push_back(m_PointVertexIndex + 1);
+                m_PointIndices.push_back(m_PointVertexIndex + 1);
+                m_PointIndices.push_back(m_PointVertexIndex + 2);
                 m_PointIndices.push_back(m_PointVertexIndex + 3);
-                m_PointVertexIndex+=4;
+                m_PointIndices.push_back(m_PointVertexIndex + 4);
+                m_PointIndices.push_back(m_PointVertexIndex + 5);
+                m_PointIndices.push_back(m_PointVertexIndex + 6);
+                m_PointIndices.push_back(m_PointVertexIndex + 6);
+                m_PointIndices.push_back(m_PointVertexIndex + 5);
+                m_PointIndices.push_back(m_PointVertexIndex + 7);
+                m_PointVertexIndex+=8;
             }
         }
     }

@@ -44,6 +44,8 @@ void GameScene::CleanUp(){
 }
 void GameScene::Update(){
     m_Player.Update();
+    Vec3<float> position = m_Player.GetPosition();
+    CORE_DEBUG("POSITION ({0}, {1}, {2}). ", position.m_X,  position.m_Y, position.m_Z);
 }
 void GameScene::Draw(){
     //m_Shader.Start();
@@ -63,7 +65,6 @@ void GameScene::Draw(){
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         glEnable(GL_CULL_FACE);
-        glLineWidth(2.0f);
         pointShader.Start();
         m_World.LoadPointViewMatrix(m_Player.GetViewMatrix());
         m_World.RenderPoints();
