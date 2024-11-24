@@ -64,7 +64,7 @@ void GameScene::Draw(){
         m_World.LoadViewMatrix(m_Player.GetViewMatrix());
         m_World.BindTextures();
         m_World.Render();
-
+        
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         pointShader.Start();
         m_World.LoadPointViewMatrix(m_Player.GetViewMatrix());

@@ -24,9 +24,9 @@ public:
     template <typename T=float>
     static void CreateScalingMatrix(float* dst, T x, T y, T z) noexcept{
         static_assert(std::is_arithmetic_v<T>, "Creating Scaling Matrix Type must be an arithmetic");
-        SetMat4Data(dst, 0, 3, x);
-        SetMat4Data(dst, 1, 3, y);
-        SetMat4Data(dst, 2, 3, z);
+        SetMat4Data(dst, 0, 0, x);
+        SetMat4Data(dst, 1, 1, y);
+        SetMat4Data(dst, 2, 2, z);
     }
     //Translation
     template<typename T=float>
