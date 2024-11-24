@@ -13,7 +13,7 @@ public:
     void LoadProjectionMatrix(float* data) const noexcept;
     void LoadViewMatrix(float* data) const noexcept;
     void LoadTransformationMatrix(float* data) const noexcept;
-    void LoadScale(float scale) const noexcept;
+    void LoadDivisor(float scale) const noexcept;
     void LoadPosition(float x, float y) const noexcept;
 private:
     GLint m_ProjMatrixLocation = -1;

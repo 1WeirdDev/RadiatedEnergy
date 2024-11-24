@@ -15,6 +15,7 @@ void World::Init(){
     m_PointShader.Create();
     m_PointShader.Start();
     m_PointShader.LoadProjectionMatrix(m_Matrix.GetData());
+    m_PointShader.LoadDivisor(Chunk::s_PointDivisor);
     m_ChunkShader.Start();
 #endif
     m_Matrix.SetIdentity();
@@ -35,18 +36,22 @@ void World::CleanUp(){
 void World::Update(){
 }
 void World::Render(){
+    m_Matrix.SetIdentity();
+    MatrixUtils::CreateScalingMatrix(m_Matrix.GetData(), 0.5f, 0.5f, 0.5f);
     for (const auto &myPair : m_Chunks) {
         if(myPair.second == nullptr)continue;
 
         //TODO: maybe see if creating a global positon on the chunk then accessing that would be faster than mulitplying
         const Vec2<int16_t>& position = myPair.first;
         Chunk* chunk = myPair.second;
-        MatrixUtils::CreateTranslationMatrix(m_Matrix.GetData(), position.m_X* Chunk::s_ChunkWidth, 0, position.m_Y * Chunk::s_ChunkWidth);
+        MatrixUtils::CreateTranslationMatrix(m_Matrix.GetData(), 0.5f * (position.m_X* Chunk::s_ChunkWidth), 0, 0.5f * (position.m_Y * Chunk::s_ChunkWidth));
+
         m_ChunkShader.LoadTransformationMatrix(m_Matrix.GetData());
         chunk->Draw();
     }
 }
 void World::RenderPoints(){
+    
     for (const auto &myPair : m_Chunks) {
         if(myPair.second == nullptr)continue;
 
@@ -56,7 +61,7 @@ void World::RenderPoints(){
         MatrixUtils::CreateTranslationMatrix(m_Matrix.GetData(), position.m_X* Chunk::s_ChunkWidth, 0, position.m_Y * Chunk::s_ChunkWidth);
         //MatrixUtils::CreateTranslationMatrixXZ<int32_t>(m_Matrix.GetData(), chunk->GetGlobalPosition());
         m_PointShader.LoadTransformationMatrix(m_Matrix.GetData());
-        chunk->Draw();
+        chunk->DrawPoints();
     }
 }
 Chunk* World::GetChunk(const Vec2<int16_t>& position){

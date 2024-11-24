@@ -21,6 +21,7 @@ public:
     static void CreateOrthoProjection(float* dst, float pNear, float pFar, float left, float right, float top, float bottom);
     static void CreatePerspectiveProjection(float* dst, float fovInRadians, float aspectRatio, float pNear, float pFar);
 
+    static void CreateScalingMatrix(float* dst, float x, float y, float z) noexcept;
     //Translation
     static void CreateTranslationMatrix(float* dst, float x, float y, float z) noexcept;
     template<typename TYPE>

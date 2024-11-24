@@ -44,6 +44,13 @@ void MatrixUtils::CreatePerspectiveProjection(float* dst, float fovInRadians, fl
 #pragma endregion
 #pragma region Translation
 
+#pragma region Scaling
+void MatrixUtils::CreateScalingMatrix(float* dst, float x, float y, float z) noexcept{
+    SetMat4Data(dst, 0,0, x);
+    SetMat4Data(dst, 1,1, y);
+    SetMat4Data(dst, 2,2, z);
+}
+#pragma endregion
 //Translation
 
 void MatrixUtils::CreateTranslationMatrix(float* dst, float x, float y, float z)noexcept{

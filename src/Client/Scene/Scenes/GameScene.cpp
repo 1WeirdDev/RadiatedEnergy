@@ -54,24 +54,21 @@ void GameScene::Draw(){
 #ifndef DIST
     const PointShader& pointShader = m_World.GetPointShader();
     chunkShader.Start();
-
-   // glPolygonMode(GL_FRONT_AND_BACK, m_IsPolygonMode ? GL_LINE : GL_FILL);
+    
+    glPolygonMode(GL_FRONT_AND_BACK, m_IsPolygonMode ? GL_LINE : GL_FILL);
     if(m_IsPolygonMode){
-        /*
-        glDisable(GL_CULL_FACE);
-
         chunkShader.Start();
         m_World.LoadViewMatrix(m_Player.GetViewMatrix());
         m_World.Render();
 
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         glEnable(GL_CULL_FACE);
         glLineWidth(2.0f);
         pointShader.Start();
         m_World.LoadPointViewMatrix(m_Player.GetViewMatrix());
-        m_World.RenderPoints();*/
+        m_World.RenderPoints();
     }else{
         glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK);
         chunkShader.Start();
         m_World.LoadViewMatrix(m_Player.GetViewMatrix());
         m_World.Render();
