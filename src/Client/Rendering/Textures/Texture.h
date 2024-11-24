@@ -10,7 +10,7 @@ public:
     void LoadFromPath(const char* path);
     void CleanUp();
 
-    void Load() const noexcept;
+    void Bind() const noexcept;
 
     GLuint GetTextureId() const noexcept{return m_TextureId;}
     bool IsCreated() const noexcept{return m_IsCreated;}

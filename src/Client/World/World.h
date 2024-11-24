@@ -6,6 +6,7 @@
 #include "Rendering/Shaders/ChunkShader.h"
 #include "Rendering/Shaders/PointShader.h"
 #include "Math/Mat4x4.h"
+#include "Rendering/Textures/Texture.h"
 
 class World{
 public:
@@ -34,7 +35,11 @@ public:
     const PointShader& GetPointShader() const noexcept{return m_PointShader;}
 private:
     ChunkShader m_ChunkShader;
-    PointShader m_PointShader;
+    Texture m_Texture;
     Mat4x4 m_Matrix;
     std::unordered_map<Vec2<int16_t>, Chunk*> m_Chunks;
+private:
+#ifndef DIST
+    PointShader m_PointShader;
+#endif
 };

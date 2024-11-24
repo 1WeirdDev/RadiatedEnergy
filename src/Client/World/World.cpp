@@ -18,8 +18,8 @@ void World::Init(){
     m_PointShader.LoadDivisor(Chunk::s_PointDivisor);
     m_ChunkShader.Start();
 #endif
+    m_Texture.LoadFromPath("res/Textures/minecraftgrass.jpg");
     m_Matrix.SetIdentity();
-    //MatrixUtils::TranslateMat4x4(m_Matrix.GetData(), Vec3<float>(0,0, -5));
     m_ChunkShader.LoadTransformationMatrix(m_Matrix.GetData());
 
     for(size_t x = 0; x < 5; x++){
@@ -35,12 +35,16 @@ void World::CleanUp(){
 }
 void World::Update(){
 }
+void World::BindTextures(){
+    glActiveTexture(GL_TEXTURE0);
+    m_Texture.Bind();
+}
 void World::Render() noexcept{
     m_Matrix.SetIdentity();
     MatrixUtils::CreateScalingMatrix(m_Matrix.GetData(), 0.5f, 0.5f, 0.5f);
     for (const auto &myPair : m_Chunks) {
         if(myPair.second == nullptr)continue;
-        
+
         //TODO: maybe see if creating a global positon on the chunk then accessing that would be faster than mulitplying
         const Vec2<int16_t>& position = myPair.first;
         Chunk* chunk = myPair.second;
@@ -51,6 +55,7 @@ void World::Render() noexcept{
     }
 }
 void World::RenderPoints() noexcept{
+    #ifndef DIST
     m_Matrix.SetIdentity();
     for (const auto &myPair : m_Chunks) {
         if(myPair.second == nullptr)continue;
@@ -58,11 +63,12 @@ void World::RenderPoints() noexcept{
         //TODO: maybe see if creating a global positon on the chunk then accessing that would be faster than mulitplying
         const Vec2<int16_t>& position = myPair.first;
         Chunk* chunk = myPair.second;
-        MatrixUtils::CreateTranslationMatrix(m_Matrix.GetData(), position.m_X* Chunk::s_ChunkWidth, 0, position.m_Y * Chunk::s_ChunkWidth);
+        MatrixUtils::CreateTranslationMatrixXZ(m_Matrix.GetData(), position.m_X* Chunk::s_ChunkWidth, position.m_Y * Chunk::s_ChunkWidth);
         //MatrixUtils::CreateTranslationMatrixXZ<int32_t>(m_Matrix.GetData(), chunk->GetGlobalPosition());
         m_PointShader.LoadTransformationMatrix(m_Matrix.GetData());
         chunk->DrawPoints();
     }
+    #endif
 }
 Chunk* World::GetChunk(const Vec2<int16_t>& position){
     auto i = m_Chunks.find(position);

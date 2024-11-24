@@ -44,8 +44,8 @@ void GameScene::CleanUp(){
 }
 void GameScene::Update(){
     m_Player.Update();
-    Vec3<float> position = m_Player.GetPosition();
-    CORE_DEBUG("POSITION ({0}, {1}, {2}). ", position.m_X,  position.m_Y, position.m_Z);
+    //Vec3<float> position = m_Player.GetPosition();
+    //CORE_DEBUG("POSITION ({0}, {1}, {2}). ", position.m_X,  position.m_Y, position.m_Z);
 }
 void GameScene::Draw(){
     //m_Shader.Start();
@@ -60,11 +60,12 @@ void GameScene::Draw(){
     glPolygonMode(GL_FRONT_AND_BACK, m_IsPolygonMode ? GL_LINE : GL_FILL);
     if(m_IsPolygonMode){
         chunkShader.Start();
+        glDisable(GL_CULL_FACE);
         m_World.LoadViewMatrix(m_Player.GetViewMatrix());
+        m_World.BindTextures();
         m_World.Render();
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        glEnable(GL_CULL_FACE);
         pointShader.Start();
         m_World.LoadPointViewMatrix(m_Player.GetViewMatrix());
         m_World.RenderPoints();
@@ -72,6 +73,7 @@ void GameScene::Draw(){
         glEnable(GL_CULL_FACE);
         chunkShader.Start();
         m_World.LoadViewMatrix(m_Player.GetViewMatrix());
+        m_World.BindTextures();
         m_World.Render();
     }
     glEnable(GL_CULL_FACE);

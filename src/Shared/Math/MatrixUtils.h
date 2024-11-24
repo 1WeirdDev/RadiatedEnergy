@@ -21,11 +21,30 @@ public:
     static void CreateOrthoProjection(float* dst, float pNear, float pFar, float left, float right, float top, float bottom);
     static void CreatePerspectiveProjection(float* dst, float fovInRadians, float aspectRatio, float pNear, float pFar);
 
-    static void CreateScalingMatrix(float* dst, float x, float y, float z) noexcept;
+    template <typename T=float>
+    static void CreateScalingMatrix(float* dst, T x, T y, T z) noexcept{
+        static_assert(std::is_arithmetic_v<T>, "Creating Scaling Matrix Type must be an arithmetic");
+        SetMat4Data(dst, 0, 3, x);
+        SetMat4Data(dst, 1, 3, y);
+        SetMat4Data(dst, 2, 3, z);
+    }
     //Translation
-    static void CreateTranslationMatrix(float* dst, float x, float y, float z) noexcept;
-    template<typename TYPE>
+    template<typename T=float>
+    static void CreateTranslationMatrix(float* dst, T x, T y, T z) noexcept{
+        static_assert(std::is_arithmetic_v<T>, "CreateTranslationMatrix Type must be an arithmetic");
+        SetMat4Data(dst, 0, 3, x);
+        SetMat4Data(dst, 1, 3, y);
+        SetMat4Data(dst, 2, 3, z);
+    }
+    template<typename T=float>
+    static void CreateTranslationMatrixXZ(float* dst, T x, T z) noexcept{
+        static_assert(std::is_arithmetic_v<T>, "Creating Scaling MatrixXZ Type must be an arithmetic");
+        SetMat4Data(dst, 0, 3, x);
+        SetMat4Data(dst, 2, 3, z);
+    }
+    template<typename TYPE=float>
     static void CreateTranslationMatrixXZ(float* dst, const Vec2<TYPE> vec2) noexcept{
+        static_assert(std::is_arithmetic_v<TYPE>, "Creating Translation Matrix Type must be an arithmetic");
         SetMat4Data(dst, 0, 3, static_cast<float>(vec2.m_X));
         SetMat4Data(dst, 2, 3, static_cast<float>(vec2.m_Y));
     }
@@ -44,8 +63,9 @@ public:
     /// @tparam TYPE Specifies that the TYPE of vector3 is. So Vec3<TYPE> 
     /// @param dst the src and dst of the matrix we are translating
     /// @param vector the vector we are translating by
-    template <typename TYPE>
+    template <typename TYPE=float>
     static void TranslateMat4x4(float* dst, const Vec3<TYPE>& vector) noexcept{
+        static_assert(std::is_arithmetic_v<TYPE>, "Translating Matrix Type must be an arithmetic");
         Mat4x4 translationMatrix;
         CreateTranslationMatrix(translationMatrix.GetData(), vector.m_X, vector.m_Y, vector.m_Z);
         MultiplyMat4x4(dst, dst, translationMatrix.GetData());

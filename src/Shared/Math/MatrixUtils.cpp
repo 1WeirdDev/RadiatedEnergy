@@ -42,24 +42,6 @@ void MatrixUtils::CreatePerspectiveProjection(float* dst, float fovInRadians, fl
     SetMat4Data(dst, 3, 3, 0.0f);
 }
 #pragma endregion
-#pragma region Translation
-
-#pragma region Scaling
-void MatrixUtils::CreateScalingMatrix(float* dst, float x, float y, float z) noexcept{
-    SetMat4Data(dst, 0,0, x);
-    SetMat4Data(dst, 1,1, y);
-    SetMat4Data(dst, 2,2, z);
-}
-#pragma endregion
-//Translation
-
-void MatrixUtils::CreateTranslationMatrix(float* dst, float x, float y, float z)noexcept{
-    SetMat4Data(dst, 0, 3, x);
-    SetMat4Data(dst, 1, 3, y);
-    SetMat4Data(dst, 2, 3, z);
-}
-#pragma endregion
-
 #pragma region Rotation
 void MatrixUtils::RotateMat4x4(float* dst, float angle, Vec3<float> _axis) noexcept{
     float const a = angle;
