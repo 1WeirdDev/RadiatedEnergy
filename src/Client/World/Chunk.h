@@ -3,7 +3,8 @@
 #include "pch.h"
 
 #include "Math/Vec2.h"
-#include "Rendering/Mesh/BasicMesh.h"
+#include "Math/Vec3.h"
+#include "Rendering/Mesh/ChunkMesh.h"
 #include "Rendering/Mesh/PointMesh.h"
 
 enum class FaceBit{
@@ -19,12 +20,12 @@ enum class FaceBit{
 
 class Chunk{
 public:
-    constexpr static uint8_t s_ChunkWidth =  4;
-    constexpr static uint8_t s_ChunkHeight = 4;
+    constexpr static uint8_t s_ChunkWidth =  16;
+    constexpr static uint8_t s_ChunkHeight = 16;
     constexpr static uint16_t s_ChunkWidthSquared = s_ChunkWidth * s_ChunkWidth;
     constexpr static uint32_t s_ChunkSize = s_ChunkWidthSquared * s_ChunkHeight;
     //The point cube will be x times smaller than scale 
-    constexpr static uint8_t s_PointDivisor = 8;
+    constexpr static uint8_t s_PointDivisor = 4;
 public:
     //Maybe make infinite with int32_t or just add some sort of world border
     Chunk(Vec2<int16_t> position);
@@ -52,7 +53,7 @@ private:
     void CreateBlock(uint8_t x, uint8_t y, uint8_t z, uint8_t blockId);
     void CreateSingle(uint8_t x, uint8_t y, uint8_t z, uint8_t blockId);
 
-    void AddVertex(uint8_t x, uint8_t y, uint8_t z);
+    void AddVertex(uint8_t x, uint8_t y, uint8_t z, uint8_t c);
     void AddFaces(uint8_t faces);
     uint8_t m_PointData[s_ChunkSize];
 private:
@@ -60,9 +61,10 @@ private:
     Vec2<int32_t> m_GlobalPosition;
 private:
     std::vector<uint8_t> m_Vertices;
+    std::vector<float> m_Normals;
     std::vector<uint16_t> m_Indices;
     uint16_t m_VertexIndex = 0;
-    BasicMesh m_Mesh;
+    ChunkMesh m_Mesh;
 private:
 #ifndef DIST
     std::vector<uint8_t> m_PointVertices;

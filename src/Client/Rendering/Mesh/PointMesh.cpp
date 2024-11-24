@@ -16,7 +16,7 @@ void PointMesh::Create(uint8_t* vertices, uint16_t* indices, size_t vertexCount,
     glGenVertexArrays(1, &m_VaoId);
     glGenBuffers(1, &m_VboId);
     glGenBuffers(1, &m_EboId);
-
+    
     glBindVertexArray(m_VaoId);
 
     //Vertices

@@ -33,68 +33,77 @@ void Chunk::CreateBlock(uint8_t x, uint8_t y, uint8_t z, uint8_t blockId){
 }
 
 void Chunk::CreateSingle(uint8_t x, uint8_t y, uint8_t z, uint8_t blockId){
-    m_Vertices.reserve(m_Vertices.size() + 3);
+    m_Vertices.reserve(m_Vertices.size() + 7);
     switch(blockId){
-    case 0b00000001:
-        AddVertex(x + 1, y, z + 2);
-        AddVertex(x + 2, y + 1, z + 2);
-        AddVertex(x + 2, y, z + 1);
+    case 0b00000001:{
+        AddVertex(x + 1, y, z + 2, 0);
+        AddVertex(x + 2, y + 1, z + 2, 0);
+        AddVertex(x + 2, y, z + 1, 0);
         AddFaces(1);
         break;
+    }
     
-    case 0b00000010:
-        AddVertex(x + 1, y + 2, z + 2);
-        AddVertex(x + 2, y + 2, z + 1);
-        AddVertex(x + 2, y + 1, z + 2);
+    case 0b00000010:{
+        AddVertex(x + 1, y + 2, z + 2, 0);
+        AddVertex(x + 2, y + 2, z + 1, 0);
+        AddVertex(x + 2, y + 1, z + 2, 0);
         AddFaces(1);
         break;
-    case 0b00000100:
-        AddVertex(x + 2, y, z + 1);
-        AddVertex(x + 2, y + 1, z);
-        AddVertex(x + 1, y, z);
+    }
+    case 0b00000100:{
+        AddVertex(x + 2, y, z + 1, 0);
+        AddVertex(x + 2, y + 1, z, 0);
+        AddVertex(x + 1, y, z, 0);
         AddFaces(1);
         break;
-    case 0b00001000:
-        AddVertex(x + 1, y + 2, z);
-        AddVertex(x + 2, y + 1, z);
-        AddVertex(x + 2, y + 2, z + 1);
+    }
+    case 0b00001000:{
+        AddVertex(x + 1, y + 2, z, 0);
+        AddVertex(x + 2, y + 1, z, 0);
+        AddVertex(x + 2, y + 2, z + 1, 0);
         AddFaces(1);
         break;
-  
-    case 0b00010000:
-        AddVertex(x, y, z + 1);
-        AddVertex(x, y + 1, z + 2);
-        AddVertex(x + 1, y, z + 2);
+    }
+
+    case 0b00010000:{
+        AddVertex(x, y, z + 1, 0);
+        AddVertex(x, y + 1, z + 2, 0);
+        AddVertex(x + 1, y, z + 2, 0);
         AddFaces(1);
         break;
-    case 0b00100000:
-        AddVertex(x, y + 2, z + 1);
-        AddVertex(x + 1, y + 2, z + 2);
-        AddVertex(x, y + 1, z + 2);
+    }
+    case 0b00100000:{
+        AddVertex(x, y + 2, z + 1, 0);
+        AddVertex(x + 1, y + 2, z + 2, 0);
+        AddVertex(x, y + 1, z + 2, 0);
         AddFaces(1);
         break;
-    case 0b01000000:
-        AddVertex(x, y, z + 1);
-        AddVertex(x + 1, y, z);
-        AddVertex(x, y + 1, z);
+    }
+    case 0b01000000:{
+        AddVertex(x, y, z + 1, 0);
+        AddVertex(x + 1, y, z, 0);
+        AddVertex(x, y + 1, z, 0);
         AddFaces(1);
         break;
-    case 0b10000000:
-        AddVertex(x, y + 2, z + 1);
-        AddVertex(x, y + 1, z);
-        AddVertex(x + 1, y + 2, z);
+    }
+    case 0b10000000:{
+        AddVertex(x, y + 2, z + 1, 0);
+        AddVertex(x, y + 1, z, 0);
+        AddVertex(x + 1, y + 2, z, 0);
         AddFaces(1);
         break;
+    }
     default:
         LogUnimplementedCase(blockId, 1);
         return;
     }
 }
 
-void Chunk::AddVertex(uint8_t x, uint8_t y, uint8_t z){
+void Chunk::AddVertex(uint8_t x, uint8_t y, uint8_t z, uint8_t c){
     m_Vertices.emplace_back(x);
     m_Vertices.emplace_back(y);
     m_Vertices.emplace_back(z);
+    m_Vertices.emplace_back(c);
 }
 
 void Chunk::AddFaces(uint8_t faces){

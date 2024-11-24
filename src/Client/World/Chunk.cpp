@@ -11,16 +11,20 @@ Chunk::Chunk(Vec2<int16_t> position):
 
     memset(m_PointData, 0, s_ChunkWidthSquared * s_ChunkHeight);
 
-    SetPointId(2,2,2, 1);
+    for(uint8_t z = 0; z < s_ChunkWidth; z+=2){
+        for(uint8_t x = 0; x < s_ChunkWidth; x+=2){
+            SetPointId(x,2,z, 1);
+        }
+    }
 }
 Chunk::~Chunk(){}
 
 bool Chunk::IsPointEnabled(uint8_t x, uint8_t y, uint8_t z) const noexcept{
-    if(x < 0 || x >= s_ChunkWidth || y < 0 || y >= s_ChunkHeight || z < 0 || z >= s_ChunkHeight)return false;
+    if(x < 0 || x >= s_ChunkWidth || y < 0 || y >= s_ChunkHeight || z < 0 || z >= s_ChunkWidth)return false;
     return m_PointData[y * s_ChunkWidthSquared + z * s_ChunkWidth + x] > 0;
 }
 void Chunk::SetPointId(uint8_t x, uint8_t y, uint8_t z, uint8_t id) noexcept{
-    if(x < 0 || x >= s_ChunkWidth || y < 0 || y >= s_ChunkHeight || z < 0 || z >= s_ChunkHeight)return;
+    if(x < 0 || x >= s_ChunkWidth || y < 0 || y >= s_ChunkHeight || z < 0 || z >= s_ChunkWidth)return;
     m_PointData[y * s_ChunkWidthSquared + z * s_ChunkWidth + x] = id;
 }
 void Chunk::CreateBlockData(){
@@ -54,6 +58,28 @@ void Chunk::CreateMeshData(){
             }
         }
     }
+
+    m_Normals.reserve((m_Vertices.size() / 4) * 3);
+    for(size_t i = 0; i < m_Vertices.size(); i+=12){
+        Vec3<float> p0(m_Vertices[i], m_Vertices[i+1], m_Vertices[i+2]);
+        Vec3<float> p1(m_Vertices[i+4], m_Vertices[i+5], m_Vertices[i+6]);
+        Vec3<float> p2(m_Vertices[i+8], m_Vertices[i+9], m_Vertices[i+10]);
+
+        Vec3<float> edge1 = p1 - p0;
+        Vec3<float> edge2 = p2 - p0;
+        Vec3<float> normal = edge1.Cross(edge2);
+        normal.Normalize();
+
+        m_Normals.emplace_back(normal.m_X);
+        m_Normals.emplace_back(normal.m_Y);
+        m_Normals.emplace_back(normal.m_Z);
+        m_Normals.emplace_back(normal.m_X);
+        m_Normals.emplace_back(normal.m_Y);
+        m_Normals.emplace_back(normal.m_Z);
+        m_Normals.emplace_back(normal.m_X);
+        m_Normals.emplace_back(normal.m_Y);
+        m_Normals.emplace_back(normal.m_Z);
+    }
 #ifndef DIST
     m_PointVertexIndex = 0;
     m_PointVertices.resize(0);
@@ -83,7 +109,7 @@ void Chunk::CreateMeshData(){
                 m_PointVertices.emplace_back(y* s_PointDivisor+ 1);
                 m_PointVertices.emplace_back(z* s_PointDivisor);
                 m_PointVertices.emplace_back(0);
-                
+
                 m_PointVertices.emplace_back(x * s_PointDivisor);
                 m_PointVertices.emplace_back(y * s_PointDivisor);
                 m_PointVertices.emplace_back(z * s_PointDivisor + 1);
@@ -123,7 +149,7 @@ void Chunk::CreateMeshData(){
 #endif
 }
 void Chunk::CreateMesh(){
-    m_Mesh.Create(3, VT_UINT8, FT_UINT16, m_Vertices.data(), m_Indices.data(), m_Vertices.size(), m_Indices.size());
+    m_Mesh.Create(m_Vertices.data(), m_Normals.data(), m_Indices.data(), m_Vertices.size(), m_Normals.size(), m_Indices.size());
 #ifndef DIST
     m_PointMesh.Create(m_PointVertices.data(), m_PointIndices.data(), m_PointVertices.size(), m_PointIndices.size());
 #endif

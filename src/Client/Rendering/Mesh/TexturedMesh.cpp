@@ -18,7 +18,6 @@ void TexturedMesh::BindVao() const{
     glBindVertexArray(m_VaoId);
 }
 void TexturedMesh::Create(unsigned char dimensions, VertexType vertexType, IndexType indexType, VertexType textureCoordType, void* vertices, void* indices, void* textureCoords, size_t vertexCount, size_t indexCount, size_t textureCoordCount){
-    CORE_DEBUG("CREATING TEXTUREDD  MESH \n");
     glGenVertexArrays(1, &m_VaoId);
     glGenBuffers(3, &m_VboId);
 

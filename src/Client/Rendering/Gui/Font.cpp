@@ -119,7 +119,7 @@ void Font::LoadFont(const char *location)
 
     FT_Done_Face(face);
     FT_Done_FreeType(ft);
-
+    
     m_Shader.Create();
     m_Shader.Start();
     UIDisplayManager::GetTexturedMesh().BindVao();

@@ -18,12 +18,12 @@ void World::Init(){
     m_PointShader.LoadDivisor(Chunk::s_PointDivisor);
     m_ChunkShader.Start();
 #endif
-    m_Texture.LoadFromPath("res/Textures/minecraftgrass.jpg");
+    m_Texture.LoadFromPath("res/Textures/test2.jpg");
     m_Matrix.SetIdentity();
     m_ChunkShader.LoadTransformationMatrix(m_Matrix.GetData());
 
-    for(size_t x = 0; x < 5; x++){
-        for(size_t z = 0; z < 5; z++){
+    for(size_t x = 0; x < 25; x++){
+        for(size_t z = 0; z < 25; z++){
             CreateChunk(Vec2<int16_t>(x, z));
         }
     }

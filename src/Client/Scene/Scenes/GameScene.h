@@ -5,6 +5,8 @@
 #include "Rendering/Shaders/ChunkShader.h"
 #include "World/World.h"
 #include "Math/Mat4x4.h"
+#include "Rendering/Gui/Gui.h"
+#include "Rendering/Gui/UIs/UITextLabel.h"
 
 class GameScene : public Scene{
 public:
@@ -18,6 +20,8 @@ public:
     void OnWindowResizeEvent(int width, int height) override;
     void HandleKeyEvent(bool& handled, KeyState state, uint8_t modifiers, uint16_t key) override;
 private:
+    Gui m_Gui;
+    UITextLabel* m_TextLabel = nullptr;
     Player m_Player;
     ChunkShader m_Shader;
     World m_World;

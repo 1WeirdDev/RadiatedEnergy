@@ -4,8 +4,10 @@
 #include "Core/Logger.h"
 #include "Input/Keyboard.h"
 #include "Rendering/Window.h"
+#include "Rendering/Gui/UIs/UIFrame.h"
 #include "Math/MatrixUtils.h"
 #include "Game.h"
+#include "Rendering/Gui/UIDisplayManager.h"
 
 GameScene::GameScene(){}
 void GameScene::Init(){
@@ -36,21 +38,31 @@ void GameScene::Init(){
     */
 
     m_World.Init();
+    UIFrame* frame = m_Gui.CreateChild<UIFrame>();
+    frame->SetPosition(0, 0.5f, 0, 0);
+    frame->SetSize(0.5f, 0.5f, 0, 0);
+    frame->SetVisible(false);
+
+    m_TextLabel = frame->CreateChild<UITextLabel>(UIDisplayManager::GetFont("RobotoRegular"));
+    Font* font = UIDisplayManager::GetFont("RobotoRegular");
+    m_TextLabel->SetFont(font);
+    m_TextLabel->SetPosition(0, 0, 0, font->GetFontSize());
+    m_TextLabel->SetSize(1.0f, 0, 0, font->GetFontSize());
+
 }
 
 void GameScene::CleanUp(){
+    m_Gui.CleanUp();
     m_World.CleanUp();
     m_Shader.CleanUp();
 }
 void GameScene::Update(){
     m_Player.Update();
-    //Vec3<float> position = m_Player.GetPosition();
-    //CORE_DEBUG("POSITION ({0}, {1}, {2}). ", position.m_X,  position.m_Y, position.m_Z);
+    Vec3<float> position = m_Player.GetPosition();
+    m_TextLabel->SetText(("POSITION " + std::to_string((int)position.m_X) + " " + std::to_string((int)position.m_Y) + " " + std::to_string((int)position.m_Z)).c_str());
 }
 void GameScene::Draw(){
-    //m_Shader.Start();
-    //m_Shader.LoadViewMatrix(m_Player.GetViewMatrix().GetData());
-    //m_Chunk.Draw();
+    m_Gui.Draw();
     const ChunkShader& chunkShader = m_World.GetChunkShader();
     
 #ifndef DIST
@@ -59,7 +71,6 @@ void GameScene::Draw(){
     
     glPolygonMode(GL_FRONT_AND_BACK, m_IsPolygonMode ? GL_LINE : GL_FILL);
     if(m_IsPolygonMode){
-        chunkShader.Start();
         glDisable(GL_CULL_FACE);
         m_World.LoadViewMatrix(m_Player.GetViewMatrix());
         m_World.BindTextures();
@@ -71,15 +82,14 @@ void GameScene::Draw(){
         m_World.RenderPoints();
     }else{
         glEnable(GL_CULL_FACE);
-        chunkShader.Start();
         m_World.LoadViewMatrix(m_Player.GetViewMatrix());
         m_World.BindTextures();
         m_World.Render();
     }
     glEnable(GL_CULL_FACE);
 #else
-    chunkShader.Start();
     m_World.LoadViewMatrix(m_Player.GetViewMatrix());
+    m_World.BindTextures();
     m_World.Render();
 #endif
 }

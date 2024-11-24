@@ -45,6 +45,12 @@ public:
         m_Y /= mag;
         m_Z /= mag;
     }
+
+    Vec3<TYPE> Cross(const Vec3<TYPE>& other) const noexcept{
+        return Vec3<TYPE>((m_Z * other.m_Y) - (other.m_Z * m_Y),
+        (m_X * other.m_Z) - (other.m_X * m_Z),
+        (m_Y * other.m_X) - (other.m_Y * m_X));
+    }
     Vec3<TYPE> GetNormalized() const noexcept{
         TYPE mag = GetMagnitude();
         if(mag == 1)return *this;

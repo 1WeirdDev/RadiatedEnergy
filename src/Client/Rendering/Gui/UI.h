@@ -72,6 +72,8 @@ public:
         return child;
     }
 
+    void SetVisible(bool value) noexcept{m_Visible = value;}
+
     UI* GetChild(size_t index) const;
 
     /// @brief if the specified ui* is found as a child we remove it from the child list without freeing int

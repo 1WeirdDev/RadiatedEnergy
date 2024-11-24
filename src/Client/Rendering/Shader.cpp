@@ -35,11 +35,11 @@ GLint Shader::LoadShader(const char* shaderData, int shaderType){
     GLint success = 0;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
     if(!success){
-        CORE_ERROR("Failed to create shader");
+        CORE_ERROR("Failed to create {0} shader", shaderType == GL_VERTEX_SHADER ? "vertex" : "fragment");
         
 		GLint maxLength = 0;
 		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
-
+        
 		// The maxLength includes the NULL character
 		std::vector<GLchar> errorLog(maxLength);
 		glGetShaderInfoLog(shader, maxLength, &maxLength, &errorLog[0]);
