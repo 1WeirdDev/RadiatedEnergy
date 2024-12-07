@@ -16,6 +16,7 @@ public:
     void CleanUp() override;
     void Update() override;
     void Draw() override;
+    void LateDraw() override;
 
     void OnWindowResizeEvent(int width, int height) override;
     void HandleKeyEvent(bool& handled, KeyState state, uint8_t modifiers, uint16_t key) override;

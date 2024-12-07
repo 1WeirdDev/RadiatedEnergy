@@ -8,11 +8,11 @@ public:
     ChunkMesh(){}
     ~ChunkMesh(){}
 
-    void CleanUp();
+    void CleanUp() noexcept;
 
-    void Create(uint8_t* vertices, float* normals, uint16_t* indices, size_t vertexCount, size_t normalCount, size_t indexCount);
-    void Draw() const;
-    void DrawPoints() const;
+    void Create(uint8_t* vertices, float* normals, uint16_t* indices, size_t vertexCount, size_t normalCount, size_t indexCount) noexcept;
+    void Draw() const noexcept;
+    void DrawPoints() const noexcept;
 
     GLuint GetVaoID() const noexcept{return m_VaoId;}
     GLuint GetVboID() const noexcept{return m_VboId;}

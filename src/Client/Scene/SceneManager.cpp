@@ -20,6 +20,8 @@ void SceneManager::Update(){
 void SceneManager::Draw(){
     for(size_t i = 0; i < s_Scenes.size(); i++)
         s_Scenes[i]->Draw();
+    for(size_t i = 0; i < s_Scenes.size(); i++)
+        s_Scenes[i]->LateDraw();
 }
 
 bool SceneManager::RemoveScene(Scene* scene){

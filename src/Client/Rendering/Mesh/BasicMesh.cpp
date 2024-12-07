@@ -3,7 +3,7 @@
 #include "BasicMesh.h"
 #include "Core/Logger.h"
 
-void BasicMesh::CleanUp(){
+void BasicMesh::CleanUp() noexcept{
     if(!m_IsCreated)return;
     glDeleteBuffers(2, &m_VboId);
     glDeleteVertexArrays(1, &m_VaoId);
@@ -12,7 +12,7 @@ void BasicMesh::CleanUp(){
     m_EboId = 0;
     m_IsCreated = false;
 }
-void BasicMesh::Create(unsigned char dimensions, VertexType vertexType, IndexType indexType, void* vertices, void* indices, size_t vertexCount, size_t indexCount){
+void BasicMesh::Create(unsigned char dimensions, VertexType vertexType, IndexType indexType, void* vertices, void* indices, size_t vertexCount, size_t indexCount) noexcept{
     glGenVertexArrays(1, &m_VaoId);
     glGenBuffers(2, &m_VboId);
     
@@ -76,12 +76,12 @@ void BasicMesh::Create(unsigned char dimensions, VertexType vertexType, IndexTyp
     m_IsCreated = true;
 }
 
-void BasicMesh::Draw()const{
+void BasicMesh::Draw()const noexcept{
     if(!m_IsCreated)return;
     glBindVertexArray(m_VaoId);
     glDrawElements(GL_TRIANGLES, m_IndexCount, m_GLIndexType, nullptr);
 }
 
-void BasicMesh::DrawPoints() const{
+void BasicMesh::DrawPoints() const noexcept{
     glDrawArrays(GL_POINTS, 0, m_VertexCount);
 }

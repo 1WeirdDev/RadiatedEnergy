@@ -3,7 +3,7 @@
 #include "ChunkMesh.h"
 #include "Core/Logger.h"
 
-void ChunkMesh::CleanUp(){
+void ChunkMesh::CleanUp() noexcept{
     if(!m_IsCreated)return;
     glDeleteBuffers(2, &m_VboId);
     glDeleteVertexArrays(1, &m_VaoId);
@@ -12,7 +12,7 @@ void ChunkMesh::CleanUp(){
     m_EboId = 0;
     m_IsCreated = false;
 }
-void ChunkMesh::Create(uint8_t* vertices, float* normals, uint16_t* indices, size_t vertexCount, size_t normalCount, size_t indexCount){
+void ChunkMesh::Create(uint8_t* vertices, float* normals, uint16_t* indices, size_t vertexCount, size_t normalCount, size_t indexCount) noexcept{
     glGenVertexArrays(1, &m_VaoId);
     glGenBuffers(3, &m_VboId);
 
@@ -39,12 +39,12 @@ void ChunkMesh::Create(uint8_t* vertices, float* normals, uint16_t* indices, siz
     m_IsCreated = true;
 }
 
-void ChunkMesh::Draw()const{
+void ChunkMesh::Draw()const noexcept{
     if(!m_IsCreated)return;
     glBindVertexArray(m_VaoId);
     glDrawElements(GL_TRIANGLES, m_IndexCount, GL_UNSIGNED_SHORT, nullptr);
 }
 
-void ChunkMesh::DrawPoints() const{
+void ChunkMesh::DrawPoints() const noexcept{
     glDrawArrays(GL_POINTS, 0, m_VertexCount);
 }

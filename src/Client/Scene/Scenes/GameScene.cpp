@@ -62,7 +62,6 @@ void GameScene::Update(){
     m_TextLabel->SetText(("POSITION " + std::to_string((int)position.m_X) + " " + std::to_string((int)position.m_Y) + " " + std::to_string((int)position.m_Z)).c_str());
 }
 void GameScene::Draw(){
-    m_Gui.Draw();
     const ChunkShader& chunkShader = m_World.GetChunkShader();
     chunkShader.Start();
 #ifndef DIST
@@ -92,6 +91,11 @@ void GameScene::Draw(){
     m_World.BindTextures();
     m_World.Render();
 #endif
+    
+}
+
+void GameScene::LateDraw(){
+    
 }
 
 void GameScene::OnWindowResizeEvent(int width, int height){
