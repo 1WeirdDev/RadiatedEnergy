@@ -15,7 +15,7 @@ public:
     void Init() override;
     void CleanUp() override;
     void Update() override;
-    void Draw() override;
+    void LateDraw() override;
 
     void HandleKeyEvent(bool& handled, KeyState state, uint8_t modifiers, uint16_t key) override;
 private:

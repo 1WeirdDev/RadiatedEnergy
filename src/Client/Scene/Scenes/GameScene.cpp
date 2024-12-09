@@ -67,7 +67,6 @@ void GameScene::Draw(){
 #ifndef DIST
     const PointShader& pointShader = m_World.GetPointShader();
 
-    
     glPolygonMode(GL_FRONT_AND_BACK, m_IsPolygonMode ? GL_LINE : GL_FILL);
     if(m_IsPolygonMode){
         glDisable(GL_CULL_FACE);
@@ -95,7 +94,7 @@ void GameScene::Draw(){
 }
 
 void GameScene::LateDraw(){
-    
+    m_Gui.Draw();
 }
 
 void GameScene::OnWindowResizeEvent(int width, int height){

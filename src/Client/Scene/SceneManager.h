@@ -16,7 +16,7 @@ public:
     static void Update();
     static void Draw();
     
-    /// @brief Allocates a new scene of TYPE and passes ARGS to it
+    /// @brief Allocates a new scene of TYPE and passes ARGS to it. Deallacation is autmatically handled by scene manager afterwards
     /// @tparam SCENE the Type to allocate
     /// @tparam ...ARGS The ARGS TO PASS TO TYPE contstructor
     /// @param mode LoadSceneMode enum
@@ -30,7 +30,7 @@ public:
             Shutdown();
         }
         SCENE* scene = new SCENE(args...);
-        s_Scenes.push_back(scene);
+        s_Scenes.emplace_back(scene);
         scene->Init();
         return scene;
     }

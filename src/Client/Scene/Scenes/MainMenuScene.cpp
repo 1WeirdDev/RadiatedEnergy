@@ -28,9 +28,8 @@ void MainMenuScene::CleanUp(){
 void MainMenuScene::Update(){
     m_Label->SetText(std::to_string((int)(1.0 / Time::GetDeltaTime())).c_str());
 }
-void MainMenuScene::Draw(){
+void MainMenuScene::LateDraw(){
     m_Gui.Draw();
-    
 }
 void MainMenuScene::HandleKeyEvent(bool& handled, KeyState state, uint8_t modifiers, uint16_t key){
     
